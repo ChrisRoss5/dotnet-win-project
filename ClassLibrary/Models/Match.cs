@@ -1,12 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System;
+using System.Collections.Generic;
+
 using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ClassLibrary.Models
 {
-    public class Match
+    public partial class Match
     {
-
         [JsonProperty("venue")]
         public string Venue { get; set; }
 
@@ -31,7 +33,7 @@ namespace ClassLibrary.Models
         public long Attendance { get; set; }
 
         [JsonProperty("officials")]
-        public string[] Officials { get; set; }
+        public List<string> Officials { get; set; }
 
         [JsonProperty("stage_name")]
         public StageName StageName { get; set; }
@@ -52,16 +54,16 @@ namespace ClassLibrary.Models
         public string WinnerCode { get; set; }
 
         [JsonProperty("home_team")]
-        public MatchTeam HomeTeam { get; set; }
+        public Team HomeTeam { get; set; }
 
         [JsonProperty("away_team")]
-        public MatchTeam AwayTeam { get; set; }
+        public Team AwayTeam { get; set; }
 
         [JsonProperty("home_team_events")]
-        public TeamEvent[] HomeTeamEvents { get; set; }
+        public List<TeamEvent> HomeTeamEvents { get; set; }
 
         [JsonProperty("away_team_events")]
-        public TeamEvent[] AwayTeamEvents { get; set; }
+        public List<TeamEvent> AwayTeamEvents { get; set; }
 
         [JsonProperty("home_team_statistics")]
         public TeamStatistics HomeTeamStatistics { get; set; }
@@ -76,22 +78,7 @@ namespace ClassLibrary.Models
         public DateTimeOffset? LastScoreUpdateAt { get; set; }
     }
 
-    public class MatchTeam
-    {
-        [JsonProperty("country")]
-        public string Country { get; set; }
-
-        [JsonProperty("code")]
-        public string Code { get; set; }
-
-        [JsonProperty("goals")]
-        public long Goals { get; set; }
-
-        [JsonProperty("penalties")]
-        public long Penalties { get; set; }
-    }
-
-    public class TeamEvent
+    public partial class TeamEvent
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -106,7 +93,7 @@ namespace ClassLibrary.Models
         public string Time { get; set; }
     }
 
-    public class TeamStatistics
+    public partial class TeamStatistics
     {
         [JsonProperty("country")]
         public string Country { get; set; }
@@ -169,13 +156,13 @@ namespace ClassLibrary.Models
         public Tactics Tactics { get; set; }
 
         [JsonProperty("starting_eleven")]
-        public StartingEleven[] StartingEleven { get; set; }
+        public List<Player> StartingEleven { get; set; }
 
         [JsonProperty("substitutes")]
-        public StartingEleven[] Substitutes { get; set; }
+        public List<Player> Substitutes { get; set; }
     }
 
-    public class StartingEleven
+    public partial class Player
     {
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -190,7 +177,7 @@ namespace ClassLibrary.Models
         public Position Position { get; set; }
     }
 
-    public class Weather
+    public partial class Weather
     {
         [JsonProperty("humidity")]
         [JsonConverter(typeof(ParseStringConverter))]
@@ -226,7 +213,7 @@ namespace ClassLibrary.Models
 
     public enum Description { ClearNight, Cloudy, PartlyCloudy, PartlyCloudyNight, Sunny };
 
-    public static class Converter
+    internal static class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -246,7 +233,7 @@ namespace ClassLibrary.Models
         };
     }
 
-    public class ParseStringConverter : JsonConverter
+    internal class ParseStringConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
 
@@ -277,7 +264,7 @@ namespace ClassLibrary.Models
         public static readonly ParseStringConverter Singleton = new ParseStringConverter();
     }
 
-    public class TypeOfEventConverter : JsonConverter
+    internal class TypeOfEventConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(TypeOfEvent) || t == typeof(TypeOfEvent?);
 
@@ -348,7 +335,7 @@ namespace ClassLibrary.Models
         public static readonly TypeOfEventConverter Singleton = new TypeOfEventConverter();
     }
 
-    public class PositionConverter : JsonConverter
+    internal class PositionConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(Position) || t == typeof(Position?);
 
@@ -399,7 +386,7 @@ namespace ClassLibrary.Models
         public static readonly PositionConverter Singleton = new PositionConverter();
     }
 
-    public class TacticsConverter : JsonConverter
+    internal class TacticsConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(Tactics) || t == typeof(Tactics?);
 
@@ -480,7 +467,7 @@ namespace ClassLibrary.Models
         public static readonly TacticsConverter Singleton = new TacticsConverter();
     }
 
-    public class StageNameConverter : JsonConverter
+    internal class StageNameConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(StageName) || t == typeof(StageName?);
 
@@ -541,7 +528,7 @@ namespace ClassLibrary.Models
         public static readonly StageNameConverter Singleton = new StageNameConverter();
     }
 
-    public class StatusConverter : JsonConverter
+    internal class StatusConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(Status) || t == typeof(Status?);
 
@@ -575,7 +562,7 @@ namespace ClassLibrary.Models
         public static readonly StatusConverter Singleton = new StatusConverter();
     }
 
-    public class TimeConverter : JsonConverter
+    internal class TimeConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(Time) || t == typeof(Time?);
 
@@ -609,7 +596,7 @@ namespace ClassLibrary.Models
         public static readonly TimeConverter Singleton = new TimeConverter();
     }
 
-    public class DescriptionConverter : JsonConverter
+    internal class DescriptionConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(Description) || t == typeof(Description?);
 
@@ -663,6 +650,5 @@ namespace ClassLibrary.Models
         }
 
         public static readonly DescriptionConverter Singleton = new DescriptionConverter();
-
     }
 }

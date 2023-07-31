@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Repo
 {
-    public class RestApiRepo : IRepo
+   /* public class RestApiRepo : IRepo
     {
-    }
+    }*/
 }

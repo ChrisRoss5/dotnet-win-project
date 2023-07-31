@@ -10,6 +10,7 @@ namespace ClassLibrary.Repo
 {
     public interface IRepo
     {
-        
+        List<string> GetTeams();
+        List<Player> GetPlayers(string team);
     }
 }

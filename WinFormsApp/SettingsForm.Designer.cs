@@ -30,9 +30,10 @@
         {
             label1 = new Label();
             label2 = new Label();
-            langComboBox = new ComboBox();
+            languageComboBox = new ComboBox();
             genderComboBox = new ComboBox();
-            proceedButton = new Button();
+            confirmButton = new Button();
+            cancelButton = new Button();
             SuspendLayout();
             // 
             // label1
@@ -44,7 +45,6 @@
             label1.Size = new Size(118, 20);
             label1.TabIndex = 0;
             label1.Text = "Select language:";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -55,18 +55,15 @@
             label2.Size = new Size(103, 20);
             label2.TabIndex = 1;
             label2.Text = "Select gender:";
-            label2.Click += label2_Click;
             // 
-            // langComboBox
+            // languageComboBox
             // 
-            langComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            langComboBox.FormattingEnabled = true;
-            langComboBox.Items.AddRange(new object[] { "English", "Croatian" });
-            langComboBox.Location = new Point(191, 50);
-            langComboBox.Name = "langComboBox";
-            langComboBox.Size = new Size(145, 28);
-            langComboBox.TabIndex = 2;
-            langComboBox.SelectedIndexChanged += langComboBox_SelectedIndexChanged;
+            languageComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            languageComboBox.Items.AddRange(new object[] { "English", "Croatian" });
+            languageComboBox.Location = new Point(191, 50);
+            languageComboBox.Name = "languageComboBox";
+            languageComboBox.Size = new Size(145, 28);
+            languageComboBox.TabIndex = 2;
             // 
             // genderComboBox
             // 
@@ -77,31 +74,47 @@
             genderComboBox.Name = "genderComboBox";
             genderComboBox.Size = new Size(145, 28);
             genderComboBox.TabIndex = 3;
-            genderComboBox.SelectedIndexChanged += genderComboBox_SelectedIndexChanged;
             // 
-            // proceedButton
+            // confirmButton
             // 
-            proceedButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            proceedButton.Location = new Point(47, 158);
-            proceedButton.Name = "proceedButton";
-            proceedButton.Size = new Size(289, 35);
-            proceedButton.TabIndex = 4;
-            proceedButton.Text = "Proceed";
-            proceedButton.UseVisualStyleBackColor = true;
+            confirmButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            confirmButton.Location = new Point(191, 165);
+            confirmButton.Name = "confirmButton";
+            confirmButton.Size = new Size(145, 35);
+            confirmButton.TabIndex = 4;
+            confirmButton.Text = "Confirm";
+            confirmButton.UseVisualStyleBackColor = true;
+            confirmButton.Click += confirmButton_Click;
             // 
-            // InitForm
+            // cancelButton
+            // 
+            cancelButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            cancelButton.Location = new Point(40, 165);
+            cancelButton.Name = "cancelButton";
+            cancelButton.Size = new Size(145, 35);
+            cancelButton.TabIndex = 5;
+            cancelButton.Text = "Cancel";
+            cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
+            // 
+            // SettingsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(382, 253);
-            Controls.Add(proceedButton);
+            Controls.Add(cancelButton);
+            Controls.Add(confirmButton);
             Controls.Add(genderComboBox);
-            Controls.Add(langComboBox);
+            Controls.Add(languageComboBox);
             Controls.Add(label2);
             Controls.Add(label1);
-            Name = "InitForm";
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SettingsForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FIFA World Cup Settings";
-            Load += InitForm_Load;
+            Load += SettingsForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -110,8 +123,9 @@
 
         private Label label1;
         private Label label2;
-        private ComboBox langComboBox;
+        private ComboBox languageComboBox;
         private ComboBox genderComboBox;
-        private Button proceedButton;
+        private Button confirmButton;
+        private Button cancelButton;
     }
 }

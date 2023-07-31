@@ -2,10 +2,10 @@
 
 namespace ClassLibrary.Models
 {
-    public class Team
+    public partial class Team
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("country")]
         public string Country { get; set; }

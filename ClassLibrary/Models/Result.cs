@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Models
 {
-    public class Result
+    public partial class Result
     {
         [JsonProperty("id")]
         public long Id { get; set; }

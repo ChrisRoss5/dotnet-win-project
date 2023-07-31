@@ -1,43 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using ClassLibrary;
 
 namespace WinFormsApp
 {
     public partial class SettingsForm : Form
     {
+        public const string fileName = "language_and_gender.txt";
+
         public SettingsForm()
         {
             InitializeComponent();
-            MaximizeBox = false;
-            StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private void InitForm_Load(object sender, EventArgs e)
+        private void SettingsForm_Load(object sender, EventArgs e)
         {
-
+            if (!Settings.SettingsExist(fileName))
+                return;
+            string[] settings = Settings.LoadSettings(fileName);
+            languageComboBox.Text = settings[0];
+            genderComboBox.Text = settings[1];
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void confirmButton_Click(object sender, EventArgs e)
         {
+            if (languageComboBox.SelectedIndex == -1 || genderComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select valid options!", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Settings.SaveSettings(fileName, languageComboBox.Text, genderComboBox.Text);
+            Settings.GenderPath = genderComboBox.Text;
+            Close();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
         {
+            Close();
         }
 
-        private void langComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        protected override bool ProcessDialogKey(Keys keyData)
         {
-        }
-
-        private void genderComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            if (ModifierKeys == Keys.None && keyData == Keys.Escape || keyData == Keys.Enter)
+            {
+                if (keyData == Keys.Escape)
+                    cancelButton_Click(this, EventArgs.Empty);
+                if (keyData == Keys.Enter)
+                    confirmButton_Click(this, EventArgs.Empty);
+                return true;
+            }
+            return base.ProcessDialogKey(keyData);
         }
     }
 }

@@ -28,30 +28,104 @@
         /// </summary>
         private void InitializeComponent()
         {
-            comboBox1 = new ComboBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            comboBox = new ComboBox();
+            menuStrip = new MenuStrip();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
+            label1 = new Label();
+            playersPanel = new Panel();
+            label2 = new Label();
+            favoritesPanel = new Panel();
+            label3 = new Label();
+            menuStrip.SuspendLayout();
             SuspendLayout();
             // 
-            // comboBox1
+            // comboBox
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(70, 55);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 28);
-            comboBox1.TabIndex = 0;
+            resources.ApplyResources(comboBox, "comboBox");
+            comboBox.DropDownHeight = 300;
+            comboBox.FormattingEnabled = true;
+            comboBox.Name = "comboBox";
+            comboBox.Sorted = true;
+            comboBox.SelectedIndexChanged += comboBox_SelectedIndexChanged;
+            // 
+            // menuStrip
+            // 
+            resources.ApplyResources(menuStrip, "menuStrip");
+            menuStrip.ImageScalingSize = new Size(20, 20);
+            menuStrip.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem });
+            menuStrip.Name = "menuStrip";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            resources.ApplyResources(settingsToolStripMenuItem, "settingsToolStripMenuItem");
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // playersPanel
+            // 
+            resources.ApplyResources(playersPanel, "playersPanel");
+            playersPanel.AllowDrop = true;
+            playersPanel.BorderStyle = BorderStyle.FixedSingle;
+            playersPanel.Name = "playersPanel";
+            playersPanel.DragDrop += panel_DragDrop;
+            playersPanel.DragEnter += panel_DragEnter;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // favoritesPanel
+            // 
+            resources.ApplyResources(favoritesPanel, "favoritesPanel");
+            favoritesPanel.AllowDrop = true;
+            favoritesPanel.BorderStyle = BorderStyle.FixedSingle;
+            favoritesPanel.Name = "favoritesPanel";
+            favoritesPanel.DragDrop += panel_DragDrop;
+            favoritesPanel.DragEnter += panel_DragEnter;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(comboBox1);
+            Controls.Add(label2);
+            Controls.Add(label3);
+            Controls.Add(favoritesPanel);
+            Controls.Add(playersPanel);
+            Controls.Add(label1);
+            Controls.Add(comboBox);
+            Controls.Add(menuStrip);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip;
             Name = "MainForm";
-            Text = "FIFA World Cup";
+            FormClosing += MainForm_FormClosing;
+            Load += MainForm_Load;
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private ComboBox comboBox1;
+        private ComboBox comboBox;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private Label label1;
+        private Panel playersPanel;
+        private Panel favoritesPanel;
+        private Label label2;
+        private Label label3;
     }
 }

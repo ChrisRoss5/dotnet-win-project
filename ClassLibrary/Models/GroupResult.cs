@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Models
 {
-    public class GroupResult
+    public partial class GroupResult
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -19,7 +19,7 @@ namespace ClassLibrary.Models
         public OrderedTeam[] OrderedTeams { get; set; }
     }
 
-    public class OrderedTeam
+    public partial class OrderedTeam
     {
         [JsonProperty("id")]
         public long Id { get; set; }
