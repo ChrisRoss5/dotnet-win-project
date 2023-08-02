@@ -29,7 +29,6 @@ namespace WinFormsApp
             var list1 = repo.GetPlayersWithGoals(team)
                 .Select(pair => $"{pair.Key.Name} ({pair.Key.ShirtNumber}) - {pair.Value}")
                 .ToList();
-
         }
     }
 }
