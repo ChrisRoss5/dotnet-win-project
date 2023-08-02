@@ -59,6 +59,7 @@
             // languageComboBox
             // 
             languageComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            languageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             languageComboBox.Items.AddRange(new object[] { "English", "Croatian" });
             languageComboBox.Location = new Point(191, 50);
             languageComboBox.Name = "languageComboBox";
@@ -68,6 +69,7 @@
             // genderComboBox
             // 
             genderComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            genderComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             genderComboBox.FormattingEnabled = true;
             genderComboBox.Items.AddRange(new object[] { "Male", "Female" });
             genderComboBox.Location = new Point(191, 94);

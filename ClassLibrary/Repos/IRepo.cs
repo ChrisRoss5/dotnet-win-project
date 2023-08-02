@@ -10,7 +10,8 @@ namespace ClassLibrary.Repo
 {
     public interface IRepo
     {
-        List<string> GetTeams();
-        List<Player> GetPlayers(string team);
+        List<Team> GetTeams();
+        List<Player> GetPlayers(string country);
+        List<KeyValuePair<Player, int>> GetPlayersWithGoals(string country);
     }
 }

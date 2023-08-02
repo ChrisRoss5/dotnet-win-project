@@ -37,6 +37,7 @@
             label2 = new Label();
             favoritesPanel = new Panel();
             label3 = new Label();
+            button1 = new Button();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -44,6 +45,7 @@
             // 
             resources.ApplyResources(comboBox, "comboBox");
             comboBox.DropDownHeight = 300;
+            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.FormattingEnabled = true;
             comboBox.Name = "comboBox";
             comboBox.Sorted = true;
@@ -95,10 +97,18 @@
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
             // 
+            // button1
+            // 
+            resources.ApplyResources(button1, "button1");
+            button1.Name = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label3);
             Controls.Add(favoritesPanel);
@@ -127,5 +137,6 @@
         private Panel favoritesPanel;
         private Label label2;
         private Label label3;
+        private Button button1;
     }
 }

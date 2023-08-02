@@ -24,8 +24,8 @@ namespace ClassLibrary
 
         public static string[] LoadSettings(string fileName)
         {
-            string s = File.ReadLines(SolutionFolderPath + "/" + fileName).First();
-            return s.Split(delimiter);
+            var s = File.ReadLines(SolutionFolderPath + "/" + fileName);
+            return !s.Any() ? Array.Empty<string>() : s.First().Split(delimiter);
         }
 
         public static void SaveSettings(string fileName, params string[] settings)

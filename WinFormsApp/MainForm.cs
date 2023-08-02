@@ -1,12 +1,14 @@
 using ClassLibrary;
 using ClassLibrary.Repo;
 using System.Globalization;
+using System.Linq;
 
 namespace WinFormsApp
 {
     public partial class MainForm : Form
     {
         public static readonly IRepo repo = RepoFactory.GetRepo();
+        private bool comboBoxLoaded = false;
 
         public MainForm()
         {
@@ -16,18 +18,33 @@ namespace WinFormsApp
                 settingsForm.ShowDialog();
             }
             string[] settings = Settings.LoadSettings(SettingsForm.fileName);
-            (string language, string gender) = (settings[0], settings[1]);
+            (var language, var gender) = (settings[0], settings[1]);
             Settings.GenderPath = gender == "Male" ? "men" : "women";
             SetCultureAndInitalize(language);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            string fileName = $"favorite-{Settings.GenderPath}-team";
+            var teams = repo.GetTeams().Select(t => $"{t.Country} ({t.FifaCode})");
+            comboBox.Items.AddRange(teams.ToArray());
+            var fileName = $"favorite-{Settings.GenderPath}-team.txt";
             if (Settings.SettingsExist(fileName))
                 comboBox.Text = Settings.LoadSettings(fileName)[0];
-            comboBox.Items.AddRange(repo.GetTeams().ToArray());
+            comboBoxLoaded = true;
             LoadPlayers();
+        }
+
+        private void LoadPlayers()
+        {
+            var players = repo.GetPlayers(comboBox.Text.Split(" (")[0]);
+            var playerControls = players.Select(p => new PlayerUserControl(p)).ToArray();
+            playersPanel.Controls.Clear();
+            playersPanel.Controls.AddRange(playerControls);
+            var fileName = $"favorite-{Settings.GenderPath}-players.txt";
+            if (Settings.SettingsExist(fileName))
+                foreach (var playerName in Settings.LoadSettings(fileName))
+                    playerControls.FirstOrDefault(
+                        p => p.player.Name == playerName)?.setFavorite(true);
         }
 
         void panel_DragEnter(object sender, DragEventArgs e)
@@ -37,18 +54,20 @@ namespace WinFormsApp
 
         void panel_DragDrop(object sender, DragEventArgs e)
         {
-            foreach (PlayerUserControl playerControl in ((Panel)sender).Controls)
-                if (playerControl.BackColor == Color.LightGray)
-                    playerControl.setFavorite((Panel)sender == playersPanel);
-            //((PlayerUserControl)e.Data!.GetData(typeof(PlayerUserControl))).Parent = (Panel)sender;
-        }
-
-        private void LoadPlayers()
-        {
-            var players = repo.GetPlayers(comboBox.Text);
-            playersPanel.Controls.Clear();
-            var playerControls = players.Select(p => new PlayerUserControl(p)).ToArray();
-            playersPanel.Controls.AddRange(playerControls);
+            var draggedPlayer = (PlayerUserControl)e.Data!.GetData(typeof(PlayerUserControl));
+            if (draggedPlayer.Parent == (Panel)sender)
+                return;
+            var playersToMove = draggedPlayer.Parent.Controls.Cast<PlayerUserControl>()
+                .Where(player => player.BackColor == Color.LightGray || player == draggedPlayer)
+                .ToList();
+            var isFavoriting = (Panel)sender == favoritesPanel;
+            if (isFavoriting && (favoritesPanel.Controls.Count + playersToMove.Count > 3))
+            {
+                MessageBox.Show("You can only favorite 3 players!");
+                return;
+            }
+            foreach (var player in playersToMove)
+                player.setFavorite(isFavoriting);
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -77,8 +96,16 @@ namespace WinFormsApp
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Settings.SaveSettings($"favorite-{Settings.GenderPath}-team", comboBox.Text);
+            if (!comboBoxLoaded) return;
+            Settings.SaveSettings($"favorite-{Settings.GenderPath}-team.txt", comboBox.Text);
+            Settings.SaveSettings($"favorite-{Settings.GenderPath}-players.txt", "");
+            favoritesPanel.Controls.Clear();
             LoadPlayers();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new RankingListsForm(comboBox.Text).ShowDialog();
         }
     }
 }

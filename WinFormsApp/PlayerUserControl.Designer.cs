@@ -49,9 +49,11 @@
             nameLabel.Size = new Size(82, 20);
             nameLabel.TabIndex = 0;
             nameLabel.Text = "nameLabel";
+            nameLabel.MouseDown += PlayerUserControl_MouseDown;
             // 
             // playerPictureBox
             // 
+            playerPictureBox.Cursor = Cursors.Hand;
             playerPictureBox.Image = Properties.Resources.player_icon2;
             playerPictureBox.Location = new Point(3, 9);
             playerPictureBox.Name = "playerPictureBox";
@@ -59,6 +61,7 @@
             playerPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             playerPictureBox.TabIndex = 1;
             playerPictureBox.TabStop = false;
+            playerPictureBox.Click += playerPictureBox_Click;
             // 
             // detailsLabel
             // 
@@ -68,10 +71,12 @@
             detailsLabel.Size = new Size(89, 20);
             detailsLabel.TabIndex = 2;
             detailsLabel.Text = "detailsLabel";
+            detailsLabel.MouseDown += PlayerUserControl_MouseDown;
             // 
             // starPictureBox
             // 
             starPictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            starPictureBox.Cursor = Cursors.Hand;
             starPictureBox.Image = Properties.Resources.star_icon;
             starPictureBox.Location = new Point(164, 9);
             starPictureBox.Name = "starPictureBox";
@@ -118,7 +123,6 @@
             Name = "PlayerUserControl";
             Size = new Size(198, 68);
             Load += PlayerUserControl_Load;
-            Click += PlayerUserControl_Click;
             MouseDown += PlayerUserControl_MouseDown;
             ((System.ComponentModel.ISupportInitialize)playerPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)starPictureBox).EndInit();
