@@ -138,10 +138,10 @@ namespace ClassLibrary.Models
         public long Tackles { get; set; }
 
         [JsonProperty("clearances")]
-        public long Clearances { get; set; }
+        public long? Clearances { get; set; }
 
         [JsonProperty("yellow_cards")]
-        public long YellowCards { get; set; }
+        public long? YellowCards { get; set; }
 
         [JsonProperty("red_cards")]
         public long RedCards { get; set; }
@@ -202,13 +202,13 @@ namespace ClassLibrary.Models
 
     public enum Tactics { The3421, The343, The352, The4231, The4321, The433, The442, The451, The532, The541 };
 
-    public enum StageName { Final, FirstStage, PlayOffForThirdPlace, QuarterFinals, RoundOf16, SemiFinals };
+    public enum StageName { Final, FirstStage, PlayOffForThirdPlace, QuarterFinals, RoundOf16, SemiFinals, MatchForThirdPlace };
 
     public enum Status { Completed };
 
     public enum Time { FullTime };
 
-    public enum Description { ClearNight, Cloudy, PartlyCloudy, PartlyCloudyNight, Sunny };
+    public enum Description { ClearNight, Cloudy, PartlyCloudy, PartlyCloudyNight, Sunny, CloudyNight };
 
     internal static class Converter
     {
@@ -476,16 +476,24 @@ namespace ClassLibrary.Models
             {
                 case "Final":
                     return StageName.Final;
+                case "First Stage":
+                    return StageName.FirstStage;
                 case "First stage":
                     return StageName.FirstStage;
                 case "Play-off for third place":
                     return StageName.PlayOffForThirdPlace;
+                case "Quarter-final":
+                    return StageName.QuarterFinals;
                 case "Quarter-finals":
                     return StageName.QuarterFinals;
                 case "Round of 16":
                     return StageName.RoundOf16;
+                case "Semi-final":
+                    return StageName.SemiFinals;
                 case "Semi-finals":
                     return StageName.SemiFinals;
+                case "Match for third place":
+                    return StageName.MatchForThirdPlace;
             }
             throw new Exception("Cannot unmarshal type StageName");
         }
@@ -517,6 +525,9 @@ namespace ClassLibrary.Models
                     return;
                 case StageName.SemiFinals:
                     serializer.Serialize(writer, "Semi-finals");
+                    return;
+                case StageName.MatchForThirdPlace:
+                    serializer.Serialize(writer, "Match for third place");
                     return;
             }
             throw new Exception("Cannot marshal type StageName");
@@ -607,6 +618,8 @@ namespace ClassLibrary.Models
                     return Description.ClearNight;
                 case "Cloudy":
                     return Description.Cloudy;
+                case "Cloudy Night":
+                    return Description.CloudyNight;
                 case "Partly Cloudy":
                     return Description.PartlyCloudy;
                 case "Partly Cloudy Night":
@@ -632,6 +645,9 @@ namespace ClassLibrary.Models
                     return;
                 case Description.Cloudy:
                     serializer.Serialize(writer, "Cloudy");
+                    return;
+                case Description.CloudyNight:
+                    serializer.Serialize(writer, "Cloudy Night");
                     return;
                 case Description.PartlyCloudy:
                     serializer.Serialize(writer, "Partly Cloudy");

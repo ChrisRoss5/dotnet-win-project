@@ -115,7 +115,7 @@
             MinimizeBox = false;
             Name = "SettingsForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FIFA World Cup Settings";
+            Text = "Settings";
             Load += SettingsForm_Load;
             ResumeLayout(false);
             PerformLayout();

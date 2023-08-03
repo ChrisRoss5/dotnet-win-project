@@ -30,6 +30,7 @@ namespace WinFormsApp
             }
             Settings.SaveSettings(fileName, languageComboBox.Text, genderComboBox.Text);
             Settings.GenderPath = genderComboBox.Text;
+            this.DialogResult = DialogResult.OK;
             Close();
         }
 

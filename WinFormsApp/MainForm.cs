@@ -11,15 +11,32 @@ namespace WinFormsApp
 
         public MainForm()
         {
-            if (!Settings.SettingsExist(SettingsForm.fileName))
-            {
-                SettingsForm settingsForm = new();
-                settingsForm.ShowDialog();
-            }
+            if (!Settings.SettingsExist(SettingsForm.fileName) &&
+                new SettingsForm().ShowDialog() != DialogResult.OK)
+                Application.Exit();
+            ApplySettingsAndInitalize(true);
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (new SettingsForm().ShowDialog() == DialogResult.OK)
+                ApplySettingsAndInitalize();
+        }
+
+        private void ApplySettingsAndInitalize(bool isStartup = false)
+        {
             string[] settings = Settings.LoadSettings(SettingsForm.fileName);
             (var language, var gender) = (settings[0], settings[1]);
             Settings.GenderPath = gender == "Male" ? "men" : "women";
-            SetCultureAndInitalize(language);
+            CultureInfo culture = new(language == "English" ? "en" : "hr");
+            Thread.CurrentThread.CurrentCulture = culture; // Globalizacija (vrijeme, datum, valuta)
+            Thread.CurrentThread.CurrentUICulture = culture; // Lokalizacija (prijevodi)
+            Controls.Clear();
+            InitializeComponent();
+            if (gender == "Female")
+                Text = "FIFA Women's World Cup 2019";
+            if (!isStartup)
+                MainForm_Load(this, EventArgs.Empty);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -27,9 +44,21 @@ namespace WinFormsApp
             var teams = repo.GetTeams().Select(t => $"{t.Country} ({t.FifaCode})");
             comboBox.Items.AddRange(teams.ToArray());
             var fileName = $"favorite-{Settings.GenderPath}-team.txt";
+            comboBoxLoaded = false;
             if (Settings.SettingsExist(fileName))
                 comboBox.Text = Settings.LoadSettings(fileName)[0];
+            else button1.Enabled = false;
             comboBoxLoaded = true;
+            LoadPlayers();
+        }
+
+        private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!comboBoxLoaded) return;
+            Settings.SaveSettings($"favorite-{Settings.GenderPath}-team.txt", comboBox.Text);
+            Settings.SaveSettings($"favorite-{Settings.GenderPath}-players.txt", "");
+            favoritesPanel.Controls.Clear();
+            button1.Enabled = true;
             LoadPlayers();
         }
 
@@ -69,12 +98,9 @@ namespace WinFormsApp
                 player.setFavorite(isFavoriting);
         }
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            SettingsForm settingsForm = new();
-            settingsForm.ShowDialog();
-            string[] settings = Settings.LoadSettings(SettingsForm.fileName);
-            SetCultureAndInitalize(settings[0]);
+            new RankingListsForm(comboBox.Text.Split(" (")[0]).Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -82,29 +108,6 @@ namespace WinFormsApp
             if (e.CloseReason == CloseReason.UserClosing)
                 e.Cancel = MessageBox.Show("Are you sure you want to exit?", "",
                     MessageBoxButtons.OKCancel) == DialogResult.Cancel;*/
-        }
-
-        private void SetCultureAndInitalize(string lang)
-        {
-            CultureInfo culture = new(lang == "English" ? "en" : "hr");
-            Thread.CurrentThread.CurrentCulture = culture; // Globalizacija (vrijeme, datum, valuta)
-            Thread.CurrentThread.CurrentUICulture = culture; // Lokalizacija (prijevodi)
-            this.Controls.Clear();
-            InitializeComponent();
-        }
-
-        private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!comboBoxLoaded) return;
-            Settings.SaveSettings($"favorite-{Settings.GenderPath}-team.txt", comboBox.Text);
-            Settings.SaveSettings($"favorite-{Settings.GenderPath}-players.txt", "");
-            favoritesPanel.Controls.Clear();
-            LoadPlayers();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            new RankingListsForm(comboBox.Text.Split(" (")[0]).Show();
         }
     }
 }

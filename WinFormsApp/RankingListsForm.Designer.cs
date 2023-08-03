@@ -38,7 +38,6 @@
             printToolStripMenuItem = new ToolStripMenuItem();
             printDocument1 = new System.Drawing.Printing.PrintDocument();
             printDialog1 = new PrintDialog();
-            printDialog2 = new PrintDialog();
             printPanel = new Panel();
             menuStrip1.SuspendLayout();
             printPanel.SuspendLayout();
@@ -124,10 +123,6 @@
             // 
             printDialog1.UseEXDialog = true;
             // 
-            // printDialog2
-            // 
-            printDialog2.UseEXDialog = true;
-            // 
             // printPanel
             // 
             printPanel.AutoSize = true;
@@ -177,7 +172,6 @@
         private ToolStripMenuItem printToolStripMenuItem;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private PrintDialog printDialog1;
-        private PrintDialog printDialog2;
         private Panel printPanel;
     }
 }

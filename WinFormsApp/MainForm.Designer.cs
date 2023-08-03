@@ -32,70 +32,37 @@
             comboBox = new ComboBox();
             menuStrip = new MenuStrip();
             settingsToolStripMenuItem = new ToolStripMenuItem();
-            label1 = new Label();
-            playersPanel = new Panel();
-            label2 = new Label();
-            favoritesPanel = new Panel();
-            label3 = new Label();
             button1 = new Button();
+            label2 = new Label();
+            label3 = new Label();
+            favoritesPanel = new Panel();
+            playersPanel = new Panel();
+            label1 = new Label();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // comboBox
             // 
-            resources.ApplyResources(comboBox, "comboBox");
             comboBox.DropDownHeight = 300;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.FormattingEnabled = true;
+            resources.ApplyResources(comboBox, "comboBox");
             comboBox.Name = "comboBox";
             comboBox.Sorted = true;
             comboBox.SelectedIndexChanged += comboBox_SelectedIndexChanged;
             // 
             // menuStrip
             // 
-            resources.ApplyResources(menuStrip, "menuStrip");
             menuStrip.ImageScalingSize = new Size(20, 20);
             menuStrip.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem });
+            resources.ApplyResources(menuStrip, "menuStrip");
             menuStrip.Name = "menuStrip";
             // 
             // settingsToolStripMenuItem
             // 
-            resources.ApplyResources(settingsToolStripMenuItem, "settingsToolStripMenuItem");
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            resources.ApplyResources(settingsToolStripMenuItem, "settingsToolStripMenuItem");
             settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
-            // 
-            // playersPanel
-            // 
-            resources.ApplyResources(playersPanel, "playersPanel");
-            playersPanel.AllowDrop = true;
-            playersPanel.BorderStyle = BorderStyle.FixedSingle;
-            playersPanel.Name = "playersPanel";
-            playersPanel.DragDrop += panel_DragDrop;
-            playersPanel.DragEnter += panel_DragEnter;
-            // 
-            // label2
-            // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
-            // favoritesPanel
-            // 
-            resources.ApplyResources(favoritesPanel, "favoritesPanel");
-            favoritesPanel.AllowDrop = true;
-            favoritesPanel.BorderStyle = BorderStyle.FixedSingle;
-            favoritesPanel.Name = "favoritesPanel";
-            favoritesPanel.DragDrop += panel_DragDrop;
-            favoritesPanel.DragEnter += panel_DragEnter;
-            // 
-            // label3
-            // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
             // 
             // button1
             // 
@@ -104,20 +71,52 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // favoritesPanel
+            // 
+            favoritesPanel.AllowDrop = true;
+            resources.ApplyResources(favoritesPanel, "favoritesPanel");
+            favoritesPanel.BorderStyle = BorderStyle.FixedSingle;
+            favoritesPanel.Name = "favoritesPanel";
+            favoritesPanel.DragDrop += panel_DragDrop;
+            favoritesPanel.DragEnter += panel_DragEnter;
+            // 
+            // playersPanel
+            // 
+            playersPanel.AllowDrop = true;
+            resources.ApplyResources(playersPanel, "playersPanel");
+            playersPanel.BorderStyle = BorderStyle.FixedSingle;
+            playersPanel.Name = "playersPanel";
+            playersPanel.DragDrop += panel_DragDrop;
+            playersPanel.DragEnter += panel_DragEnter;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label3);
+            Controls.Add(comboBox);
+            Controls.Add(menuStrip);
+            Controls.Add(button1);
             Controls.Add(favoritesPanel);
             Controls.Add(playersPanel);
             Controls.Add(label1);
-            Controls.Add(comboBox);
-            Controls.Add(menuStrip);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            MainMenuStrip = menuStrip;
             MaximizeBox = false;
             Name = "MainForm";
             FormClosing += MainForm_FormClosing;
@@ -133,11 +132,11 @@
         private ComboBox comboBox;
         private MenuStrip menuStrip;
         private ToolStripMenuItem settingsToolStripMenuItem;
-        private Label label1;
-        private Panel playersPanel;
-        private Panel favoritesPanel;
+        private Button button1;
         private Label label2;
         private Label label3;
-        private Button button1;
+        private Panel favoritesPanel;
+        private Panel playersPanel;
+        private Label label1;
     }
 }
