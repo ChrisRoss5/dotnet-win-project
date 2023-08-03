@@ -39,13 +39,15 @@
             printDocument1 = new System.Drawing.Printing.PrintDocument();
             printDialog1 = new PrintDialog();
             printDialog2 = new PrintDialog();
+            printPanel = new Panel();
             menuStrip1.SuspendLayout();
+            printPanel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(98, 40);
+            label1.Location = new Point(125, 3);
             label1.Name = "label1";
             label1.Size = new Size(52, 20);
             label1.TabIndex = 0;
@@ -54,7 +56,8 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(342, 40);
+            label2.FlatStyle = FlatStyle.Popup;
+            label2.Location = new Point(436, 3);
             label2.Name = "label2";
             label2.Size = new Size(85, 20);
             label2.TabIndex = 1;
@@ -63,7 +66,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(598, 40);
+            label3.Location = new Point(769, 3);
             label3.Name = "label3";
             label3.Size = new Size(77, 20);
             label3.TabIndex = 2;
@@ -73,27 +76,27 @@
             // 
             panel1.AutoSize = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(12, 51);
+            panel1.Location = new Point(0, 26);
             panel1.Name = "panel1";
-            panel1.Size = new Size(244, 10);
+            panel1.Size = new Size(310, 10);
             panel1.TabIndex = 5;
             // 
             // panel2
             // 
             panel2.AutoSize = true;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Location = new Point(262, 51);
+            panel2.Location = new Point(326, 26);
             panel2.Name = "panel2";
-            panel2.Size = new Size(244, 10);
+            panel2.Size = new Size(310, 10);
             panel2.TabIndex = 6;
             // 
             // panel3
             // 
             panel3.AutoSize = true;
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Location = new Point(512, 51);
+            panel3.Location = new Point(651, 26);
             panel3.Name = "panel3";
-            panel3.Size = new Size(244, 10);
+            panel3.Size = new Size(310, 10);
             panel3.TabIndex = 6;
             // 
             // menuStrip1
@@ -102,7 +105,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { printToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(782, 28);
+            menuStrip1.Size = new Size(1006, 28);
             menuStrip1.TabIndex = 7;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -125,19 +128,29 @@
             // 
             printDialog2.UseEXDialog = true;
             // 
+            // printPanel
+            // 
+            printPanel.AutoSize = true;
+            printPanel.Controls.Add(label1);
+            printPanel.Controls.Add(label2);
+            printPanel.Controls.Add(label3);
+            printPanel.Controls.Add(panel1);
+            printPanel.Controls.Add(panel2);
+            printPanel.Controls.Add(panel3);
+            printPanel.Location = new Point(12, 40);
+            printPanel.Name = "printPanel";
+            printPanel.Padding = new Padding(0, 0, 0, 20);
+            printPanel.Size = new Size(964, 59);
+            printPanel.TabIndex = 8;
+            // 
             // RankingListsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(782, 553);
-            Controls.Add(label1);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            ClientSize = new Size(1006, 721);
             Controls.Add(menuStrip1);
+            Controls.Add(printPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
@@ -146,6 +159,8 @@
             Load += RankingListsForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            printPanel.ResumeLayout(false);
+            printPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -163,5 +178,6 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private PrintDialog printDialog1;
         private PrintDialog printDialog2;
+        private Panel printPanel;
     }
 }

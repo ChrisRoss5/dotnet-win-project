@@ -106,39 +106,24 @@ namespace WinFormsApp
         {
             printDialog1.Document = printDocument1;
             printDialog1.Document.DocumentName = Text;
+            printDialog1.Document.DefaultPageSettings.Margins = new Margins(10, 10, 10, 10);
             if (printDialog1.ShowDialog() == DialogResult.OK)
                 printDocument1.Print();
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
-            int totalHeight = 0;
-            foreach (Control control in Controls)
-                totalHeight = Math.Max(totalHeight, control.Bottom);
-            Control controlToPrint = panel1;
-
-            // Get the control's drawing area and convert it to a bitmap
-            Bitmap controlBitmap = new Bitmap(controlToPrint.Width, controlToPrint.Height);
-            controlToPrint.DrawToBitmap(controlBitmap, new Rectangle(0, 0, controlToPrint.Width, controlToPrint.Height));
-
-            // Print the bitmap on the document
-            e.Graphics.DrawImage(controlBitmap, e.MarginBounds.Location);
-            /*Bitmap memoryImage = new(Size.Width, totalHeight);
-            using (Graphics memoryGraphics = Graphics.FromImage(memoryImage))
-            {
-                memoryGraphics.Clear(Color.White);
-                int scrollOffset = 0;
-                for (int i = 0; scrollOffset < totalHeight; i++)
-                {
-                    VerticalScroll.Value = scrollOffset;
-                    Update();
-                    memoryGraphics.CopyFromScreen(Location.X, Location.Y + 25, 0, Size.Height * i, Size);
-                    scrollOffset += ClientRectangle.Height;
-                }
-
-            }
-            e.Graphics.ScaleTransform(0.5f, 0.5f);
-            e.Graphics.DrawImage(memoryImage, 0, 0);*/
+            printPanel.BackColor = Color.White;
+            Bitmap controlBitmap = new Bitmap(printPanel.Width, printPanel.Height);
+            printPanel.DrawToBitmap(controlBitmap, new Rectangle(
+                0, 0, printPanel.Width, printPanel.Height));
+            printPanel.BackColor = DefaultBackColor;
+            float aspectRatio = (float)controlBitmap.Width / controlBitmap.Height;
+            int newHeight = e.MarginBounds.Height;
+            int newWidth = (int)(newHeight * aspectRatio);
+            int x = e.MarginBounds.Left + (e.MarginBounds.Width - newWidth) / 2;
+            int y = e.MarginBounds.Top + (e.MarginBounds.Height - newHeight) / 2;
+            e.Graphics.DrawImage(controlBitmap, x, y, newWidth, newHeight);
         }
     }
 }
