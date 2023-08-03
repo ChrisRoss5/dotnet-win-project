@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RankingListsForm));
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -45,74 +46,49 @@
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(125, 3);
+            resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            label1.Size = new Size(52, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Golovi";
             // 
             // label2
             // 
-            label2.AutoSize = true;
+            resources.ApplyResources(label2, "label2");
             label2.FlatStyle = FlatStyle.Popup;
-            label2.Location = new Point(436, 3);
             label2.Name = "label2";
-            label2.Size = new Size(85, 20);
-            label2.TabIndex = 1;
-            label2.Text = "Žuti kartoni";
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(769, 3);
+            resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
-            label3.Size = new Size(77, 20);
-            label3.TabIndex = 2;
-            label3.Text = "Posjetitelji";
             // 
             // panel1
             // 
-            panel1.AutoSize = true;
+            resources.ApplyResources(panel1, "panel1");
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(0, 26);
             panel1.Name = "panel1";
-            panel1.Size = new Size(310, 10);
-            panel1.TabIndex = 5;
             // 
             // panel2
             // 
-            panel2.AutoSize = true;
+            resources.ApplyResources(panel2, "panel2");
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Location = new Point(326, 26);
             panel2.Name = "panel2";
-            panel2.Size = new Size(310, 10);
-            panel2.TabIndex = 6;
             // 
             // panel3
             // 
-            panel3.AutoSize = true;
+            resources.ApplyResources(panel3, "panel3");
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Location = new Point(651, 26);
             panel3.Name = "panel3";
-            panel3.Size = new Size(310, 10);
-            panel3.TabIndex = 6;
             // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { printToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
+            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1006, 28);
-            menuStrip1.TabIndex = 7;
-            menuStrip1.Text = "menuStrip1";
             // 
             // printToolStripMenuItem
             // 
             printToolStripMenuItem.Name = "printToolStripMenuItem";
-            printToolStripMenuItem.Size = new Size(52, 24);
-            printToolStripMenuItem.Text = "Ispis";
+            resources.ApplyResources(printToolStripMenuItem, "printToolStripMenuItem");
             printToolStripMenuItem.Click += printToolStripMenuItem_Click;
             // 
             // printDocument1
@@ -125,32 +101,25 @@
             // 
             // printPanel
             // 
-            printPanel.AutoSize = true;
+            resources.ApplyResources(printPanel, "printPanel");
             printPanel.Controls.Add(label1);
             printPanel.Controls.Add(label2);
             printPanel.Controls.Add(label3);
             printPanel.Controls.Add(panel1);
             printPanel.Controls.Add(panel2);
             printPanel.Controls.Add(panel3);
-            printPanel.Location = new Point(12, 40);
             printPanel.Name = "printPanel";
-            printPanel.Padding = new Padding(0, 0, 0, 20);
-            printPanel.Size = new Size(964, 59);
-            printPanel.TabIndex = 8;
             // 
             // RankingListsForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            AutoScroll = true;
-            ClientSize = new Size(1006, 721);
             Controls.Add(menuStrip1);
             Controls.Add(printPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "RankingListsForm";
-            Text = "RankingListsForm";
             Load += RankingListsForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

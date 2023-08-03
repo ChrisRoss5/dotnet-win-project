@@ -7,7 +7,7 @@
         public static readonly string SolutionFolderPath =
             Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName;
 
-        public static string GenderPath { get; set; } = "";
+        public static string ChampionshipPath { get; set; } = "";
 
         public static bool SettingsExist(string fileName)
         {

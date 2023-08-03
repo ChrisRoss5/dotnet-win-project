@@ -26,15 +26,16 @@ namespace WinFormsApp
         private void ApplySettingsAndInitalize(bool isStartup = false)
         {
             string[] settings = Settings.LoadSettings(SettingsForm.fileName);
-            (var language, var gender) = (settings[0], settings[1]);
-            Settings.GenderPath = gender == "Male" ? "men" : "women";
-            CultureInfo culture = new(language == "English" ? "en" : "hr");
-            Thread.CurrentThread.CurrentCulture = culture; // Globalizacija (vrijeme, datum, valuta)
+            (var language, var championship) = (settings[0], settings[1]);
+            Settings.ChampionshipPath = championship == "0" ? "men" : "women";
+            CultureInfo culture = new(language == "0" ? "en" : "hr");
+            Thread.CurrentThread.CurrentCulture = culture;   // Globalizacija (vrijeme, datum, valuta)
             Thread.CurrentThread.CurrentUICulture = culture; // Lokalizacija (prijevodi)
             Controls.Clear();
             InitializeComponent();
-            if (gender == "Female")
-                Text = "FIFA Women's World Cup 2019";
+            var enTitle = $"{(championship == "0" ? "Men's" : "Women's")} World Cup";
+            var hrTitle = $"{(championship == "0" ? "Muško" : "Žensko")} Svjetsko prvenstvo";
+            Text = $"FIFA {(language == "0" ? enTitle : hrTitle)} 2019";
             if (!isStartup)
                 MainForm_Load(this, EventArgs.Empty);
         }
@@ -43,7 +44,7 @@ namespace WinFormsApp
         {
             var teams = repo.GetTeams().Select(t => $"{t.Country} ({t.FifaCode})");
             comboBox.Items.AddRange(teams.ToArray());
-            var fileName = $"favorite-{Settings.GenderPath}-team.txt";
+            var fileName = $"favorite-{Settings.ChampionshipPath}-team.txt";
             comboBoxLoaded = false;
             if (Settings.SettingsExist(fileName))
                 comboBox.Text = Settings.LoadSettings(fileName)[0];
@@ -55,8 +56,8 @@ namespace WinFormsApp
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!comboBoxLoaded) return;
-            Settings.SaveSettings($"favorite-{Settings.GenderPath}-team.txt", comboBox.Text);
-            Settings.SaveSettings($"favorite-{Settings.GenderPath}-players.txt", "");
+            Settings.SaveSettings($"favorite-{Settings.ChampionshipPath}-team.txt", comboBox.Text);
+            Settings.SaveSettings($"favorite-{Settings.ChampionshipPath}-players.txt", "");
             favoritesPanel.Controls.Clear();
             button1.Enabled = true;
             LoadPlayers();
@@ -68,7 +69,7 @@ namespace WinFormsApp
             var playerControls = players.Select(p => new PlayerUserControl(p)).ToArray();
             playersPanel.Controls.Clear();
             playersPanel.Controls.AddRange(playerControls);
-            var fileName = $"favorite-{Settings.GenderPath}-players.txt";
+            var fileName = $"favorite-{Settings.ChampionshipPath}-players.txt";
             if (Settings.SettingsExist(fileName))
                 foreach (var playerName in Settings.LoadSettings(fileName))
                     playerControls.FirstOrDefault(

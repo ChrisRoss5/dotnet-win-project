@@ -40,7 +40,7 @@ namespace WinFormsApp
             BackColor = DefaultBackColor;
             var favorites = mainForm.Controls["favoritesPanel"].Controls
                 .Cast<PlayerUserControl>().Select(control => control.player.Name);
-            Settings.SaveSettings($"favorite-{Settings.GenderPath}-players.txt", favorites.ToArray()!);
+            Settings.SaveSettings($"favorite-{Settings.ChampionshipPath}-players.txt", favorites.ToArray()!);
         }
 
         private void starPictureBox_Click(object sender, EventArgs e)

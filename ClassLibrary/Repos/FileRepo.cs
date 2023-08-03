@@ -43,7 +43,7 @@ namespace ClassLibrary.Repo
         {
             var text = File.ReadAllText(
                 $"{Settings.SolutionFolderPath}/worldcup.sfg.io/" +
-                $"{Settings.GenderPath}/{fileName}.json");
+                $"{Settings.ChampionshipPath}/{fileName}.json");
             return JsonConvert.DeserializeObject<T>(text, Converter.Settings)!;
         }
     }

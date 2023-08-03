@@ -89,5 +89,14 @@ namespace WinFormsApp.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select all fields!.
+        /// </summary>
+        internal static string submitError {
+            get {
+                return ResourceManager.GetString("submitError", resourceCulture);
+            }
+        }
     }
 }

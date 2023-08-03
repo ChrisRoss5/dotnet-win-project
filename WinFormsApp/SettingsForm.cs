@@ -1,10 +1,16 @@
 ﻿using ClassLibrary;
+using System.ComponentModel;
+using System.Globalization;
+using System.Resources;
+using System.Text.RegularExpressions;
+using WinFormsApp.Properties;
 
 namespace WinFormsApp
 {
     public partial class SettingsForm : Form
     {
-        public const string fileName = "language_and_gender.txt";
+        public const string fileName = "language_and_championship.txt";
+        private static readonly ResourceManager rm = new(typeof(Resources));
 
         public SettingsForm()
         {
@@ -16,20 +22,21 @@ namespace WinFormsApp
             if (!Settings.SettingsExist(fileName))
                 return;
             string[] settings = Settings.LoadSettings(fileName);
-            languageComboBox.Text = settings[0];
-            genderComboBox.Text = settings[1];
+            languageComboBox.SelectedIndex = int.Parse(settings[0]);
+            championshipComboBox.SelectedIndex = int.Parse(settings[1]);
         }
 
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            if (languageComboBox.SelectedIndex == -1 || genderComboBox.SelectedIndex == -1)
+            var (languageIdx, championshipIdx) =
+                (languageComboBox.SelectedIndex, championshipComboBox.SelectedIndex);
+            if (languageIdx == -1 || championshipIdx == -1)
             {
-                MessageBox.Show("Please select valid options!", "Error",
+                MessageBox.Show(rm.GetString("submitError"), "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Settings.SaveSettings(fileName, languageComboBox.Text, genderComboBox.Text);
-            Settings.GenderPath = genderComboBox.Text;
+            Settings.SaveSettings(fileName, languageIdx.ToString(), championshipIdx.ToString());
             this.DialogResult = DialogResult.OK;
             Close();
         }
