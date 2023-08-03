@@ -66,7 +66,7 @@
             // detailsLabel
             // 
             detailsLabel.AutoSize = true;
-            detailsLabel.Location = new Point(59, 38);
+            detailsLabel.Location = new Point(59, 35);
             detailsLabel.Name = "detailsLabel";
             detailsLabel.Size = new Size(89, 20);
             detailsLabel.TabIndex = 2;

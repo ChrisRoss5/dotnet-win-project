@@ -1,7 +1,6 @@
 using ClassLibrary;
 using ClassLibrary.Repo;
 using System.Globalization;
-using System.Linq;
 
 namespace WinFormsApp
 {
@@ -105,7 +104,7 @@ namespace WinFormsApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new RankingListsForm(comboBox.Text).ShowDialog();
+            new RankingListsForm(comboBox.Text.Split(" (")[0]).Show();
         }
     }
 }

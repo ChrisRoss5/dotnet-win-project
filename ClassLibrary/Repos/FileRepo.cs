@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using ClassLibrary.Models;
+﻿using ClassLibrary.Models;
 using Newtonsoft.Json;
 
 namespace ClassLibrary.Repo
@@ -18,7 +12,7 @@ namespace ClassLibrary.Repo
 
         public List<Player> GetPlayers(string country)
         {
-            return GetMatchesByCountry(country)
+            return GetMatches(country)
                 .SelectMany(m => m.HomeTeam.Country == country
                     ? m.HomeTeamStatistics.StartingEleven.Union(m.HomeTeamStatistics.Substitutes)
                     : m.AwayTeamStatistics.StartingEleven.Union(m.AwayTeamStatistics.Substitutes))
@@ -27,23 +21,22 @@ namespace ClassLibrary.Repo
                 .ToList();
         }
 
-        public List<KeyValuePair<Player, int>> GetPlayersWithGoals(string country)
+        public List<KeyValuePair<Player, int>> GetPlayersWithEventCount(string country, TypeOfEvent _event)
         {
-            var goalEvents = GetMatchesByCountry(country)
-                .SelectMany(m => m.HomeTeam.Country == country 
-                    ? m.HomeTeamEvents : m.AwayTeamEvents)
-                .Where(e => e.TypeOfEvent == TypeOfEvent.Goal);
+            var goalEvents = GetMatches(country)
+                .SelectMany(m => m.HomeTeam.Country == country ? m.HomeTeamEvents : m.AwayTeamEvents)
+                .Where(e => e.TypeOfEvent == _event);
             return GetPlayers(country).ToArray()
-                .Select(p => new KeyValuePair<Player, int>(
-                    p, goalEvents.Count(e => e.Player == p.Name)))
+                .Select(p => new KeyValuePair<Player, int>(p, goalEvents.Count(e => e.Player == p.Name)))
                 .OrderByDescending(p => p.Value)
                 .ToList();
         }
 
-        private static IEnumerable<Match> GetMatchesByCountry(string country)
+        public List<Match> GetMatches(string country)
         {
             return ParseFile<List<Match>>("matches")!
-                .Where(m => m.HomeTeam.Country == country || m.AwayTeam.Country == country);
+                .Where(m => m.HomeTeam.Country == country || m.AwayTeam.Country == country)
+                .ToList();
         }
 
         private static T ParseFile<T>(string fileName)

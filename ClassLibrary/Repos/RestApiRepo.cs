@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClassLibrary.Repo
+﻿namespace ClassLibrary.Repo
 {
-   /* public class RestApiRepo : IRepo
-    {
-    }*/
+    /* public class RestApiRepo : IRepo
+     {
+     }*/
 }

@@ -1,15 +1,6 @@
 ﻿using ClassLibrary;
 using ClassLibrary.Models;
-using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace WinFormsApp
 {
@@ -90,10 +81,10 @@ namespace WinFormsApp
                 Directory.CreateDirectory(playerImagesPath);
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                    string filePath = fileDialog.FileName;
-                    string destination = playerImagesPath + player.Name + Path.GetExtension(filePath);
-                    File.Copy(filePath, destination);
-                    playerPictureBox.Image = new Bitmap(fileDialog.OpenFile());
+                string filePath = fileDialog.FileName;
+                string destination = playerImagesPath + player.Name + Path.GetExtension(filePath);
+                File.Copy(filePath, destination);
+                playerPictureBox.Image = new Bitmap(fileDialog.OpenFile());
             }
             else fileDialog.Dispose();
         }

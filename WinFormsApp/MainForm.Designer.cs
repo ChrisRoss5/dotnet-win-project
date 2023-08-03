@@ -118,6 +118,7 @@
             Controls.Add(menuStrip);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip;
+            MaximizeBox = false;
             Name = "MainForm";
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;

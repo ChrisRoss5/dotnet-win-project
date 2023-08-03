@@ -1,10 +1,4 @@
 ﻿using ClassLibrary.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClassLibrary.Repo
 {
@@ -12,6 +6,7 @@ namespace ClassLibrary.Repo
     {
         List<Team> GetTeams();
         List<Player> GetPlayers(string country);
-        List<KeyValuePair<Player, int>> GetPlayersWithGoals(string country);
+        List<KeyValuePair<Player, int>> GetPlayersWithEventCount(string country, TypeOfEvent _event);
+        List<Match> GetMatches(string country);
     }
 }
