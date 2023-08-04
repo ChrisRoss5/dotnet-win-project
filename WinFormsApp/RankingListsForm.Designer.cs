@@ -80,15 +80,15 @@
             // 
             // menuStrip1
             // 
+            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { printToolStripMenuItem });
-            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
             // printToolStripMenuItem
             // 
-            printToolStripMenuItem.Name = "printToolStripMenuItem";
             resources.ApplyResources(printToolStripMenuItem, "printToolStripMenuItem");
+            printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.Click += printToolStripMenuItem_Click;
             // 
             // printDocument1

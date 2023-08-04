@@ -1,18 +1,22 @@
 using ClassLibrary;
 using ClassLibrary.Repo;
+using ClassLibrary.Services;
 using System.Globalization;
+using System.Resources;
+using WinFormsApp.Properties;
 
 namespace WinFormsApp
 {
     public partial class MainForm : Form
     {
-        public static readonly IRepo repo = RepoFactory.GetRepo();
+        private readonly IWorldCupService worldCupService = new WorldCupService(new RestApiRepo());
+        private readonly ResourceManager rm = new(typeof(Resources));
         private bool comboBoxLoaded = false;
 
         public MainForm()
         {
-            if (!Settings.SettingsExist(SettingsForm.fileName) &&
-                new SettingsForm().ShowDialog() != DialogResult.OK)
+            if (!Settings.SettingsExist(SettingsForm.fileName)
+                && new SettingsForm().ShowDialog() != DialogResult.OK)
                 Application.Exit();
             ApplySettingsAndInitalize(true);
         }
@@ -40,10 +44,10 @@ namespace WinFormsApp
                 MainForm_Load(this, EventArgs.Empty);
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
-            var teams = repo.GetTeams().Select(t => $"{t.Country} ({t.FifaCode})");
-            comboBox.Items.AddRange(teams.ToArray());
+            var teams = await worldCupService.GetTeams();
+            comboBox.Items.AddRange(teams.Select(t => $"{t.Country} ({t.FifaCode})").ToArray());
             var fileName = $"favorite-{Settings.ChampionshipPath}-team.txt";
             comboBoxLoaded = false;
             if (Settings.SettingsExist(fileName))
@@ -63,9 +67,10 @@ namespace WinFormsApp
             LoadPlayers();
         }
 
-        private void LoadPlayers()
+        private async void LoadPlayers()
         {
-            var players = repo.GetPlayers(comboBox.Text.Split(" (")[0]);
+            var countyCode = comboBox.Text.Split('(', ')')[1];
+            var players = await worldCupService.GetPlayers(countyCode);
             var playerControls = players.Select(p => new PlayerUserControl(p)).ToArray();
             playersPanel.Controls.Clear();
             playersPanel.Controls.AddRange(playerControls);
@@ -76,12 +81,12 @@ namespace WinFormsApp
                         p => p.player.Name == playerName)?.setFavorite(true);
         }
 
-        void panel_DragEnter(object sender, DragEventArgs e)
+        private void panel_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
 
-        void panel_DragDrop(object sender, DragEventArgs e)
+        private void panel_DragDrop(object sender, DragEventArgs e)
         {
             var draggedPlayer = (PlayerUserControl)e.Data!.GetData(typeof(PlayerUserControl));
             if (draggedPlayer.Parent == (Panel)sender)
@@ -92,7 +97,8 @@ namespace WinFormsApp
             var isFavoriting = (Panel)sender == favoritesPanel;
             if (isFavoriting && (favoritesPanel.Controls.Count + playersToMove.Count > 3))
             {
-                MessageBox.Show("You can only favorite 3 players!");
+                MessageBox.Show(rm.GetString("favoriteError"), rm.GetString("favoriteErrorCaption"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             foreach (var player in playersToMove)
@@ -101,14 +107,14 @@ namespace WinFormsApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new RankingListsForm(comboBox.Text.Split(" (")[0]).Show();
+            new RankingListsForm(comboBox.Text).Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {/* todo 
+        {
             if (e.CloseReason == CloseReason.UserClosing)
-                e.Cancel = MessageBox.Show("Are you sure you want to exit?", "",
-                    MessageBoxButtons.OKCancel) == DialogResult.Cancel;*/
+                e.Cancel = MessageBox.Show(rm.GetString("exitConfirm"), rm.GetString("exitConfirmCaption"),
+                    MessageBoxButtons.OKCancel) == DialogResult.Cancel;
         }
     }
 }

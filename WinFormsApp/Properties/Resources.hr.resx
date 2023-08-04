@@ -117,7 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="error" xml:space="preserve">
+    <value>Greška</value>
+  </data>
+  <data name="exitConfirm" xml:space="preserve">
+    <value>Jeste li sigurni da želite izaći?</value>
+  </data>
+  <data name="exitConfirmCaption" xml:space="preserve">
+    <value>Izlaz</value>
+  </data>
+  <data name="favoriteError" xml:space="preserve">
+    <value>Maksimalan broj omiljenih igrača je 3!</value>
+  </data>
+  <data name="favoriteErrorCaption" xml:space="preserve">
+    <value>Limit postignut</value>
+  </data>
+  <data name="Goal" xml:space="preserve">
+    <value>Golova</value>
+  </data>
+  <data name="rankingListTitle" xml:space="preserve">
+    <value>Rang liste</value>
+  </data>
   <data name="submitError" xml:space="preserve">
     <value>Odaberite sva polja!</value>
+  </data>
+  <data name="visitors" xml:space="preserve">
+    <value>posjetitelja</value>
+  </data>
+  <data name="YellowCard" xml:space="preserve">
+    <value>Žutih kartona</value>
   </data>
 </root>

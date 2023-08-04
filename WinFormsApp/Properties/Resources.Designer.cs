@@ -61,6 +61,60 @@ namespace WinFormsApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string error {
+            get {
+                return ResourceManager.GetString("error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to exit?.
+        /// </summary>
+        internal static string exitConfirm {
+            get {
+                return ResourceManager.GetString("exitConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string exitConfirmCaption {
+            get {
+                return ResourceManager.GetString("exitConfirmCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum number of favorite players is 3!.
+        /// </summary>
+        internal static string favoriteError {
+            get {
+                return ResourceManager.GetString("favoriteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limit reached.
+        /// </summary>
+        internal static string favoriteErrorCaption {
+            get {
+                return ResourceManager.GetString("favoriteErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals.
+        /// </summary>
+        internal static string Goal {
+            get {
+                return ResourceManager.GetString("Goal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap player_icon {
@@ -81,6 +135,15 @@ namespace WinFormsApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ranking lists.
+        /// </summary>
+        internal static string rankingListTitle {
+            get {
+                return ResourceManager.GetString("rankingListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap star_icon {
@@ -96,6 +159,24 @@ namespace WinFormsApp.Properties {
         internal static string submitError {
             get {
                 return ResourceManager.GetString("submitError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to visitors.
+        /// </summary>
+        internal static string visitors {
+            get {
+                return ResourceManager.GetString("visitors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yellow cards.
+        /// </summary>
+        internal static string YellowCard {
+            get {
+                return ResourceManager.GetString("YellowCard", resourceCulture);
             }
         }
     }

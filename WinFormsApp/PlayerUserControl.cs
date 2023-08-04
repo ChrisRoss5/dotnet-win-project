@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using ClassLibrary.Models;
 using System.Data;
+using System.Globalization;
 
 namespace WinFormsApp
 {
@@ -12,8 +13,8 @@ namespace WinFormsApp
         public PlayerUserControl(Player player)
         {
             InitializeComponent();
-            this.player = player;
             Dock = DockStyle.Top;
+            this.player = player;
         }
 
         private void PlayerUserControl_Load(object sender, EventArgs e)
@@ -23,8 +24,8 @@ namespace WinFormsApp
             if (player.Captain)
             {
                 nameLabel.Font = new Font(Font, FontStyle.Bold);
-                detailsLabel.Text += " | " + (Thread.CurrentThread.CurrentCulture.TextInfo.CultureName
-                    == "en-US" ? "Captain" : "Kapetan");
+                detailsLabel.Text += " | " + (CultureInfo.CurrentUICulture.Name
+                    == "en" ? "Captain" : "Kapetan");
             }
             var files = Directory.GetFiles(playerImagesPath, player.Name + ".*");
             if (files.Length > 0)

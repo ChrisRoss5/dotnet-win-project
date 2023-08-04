@@ -127,7 +127,34 @@
   <data name="player-icon2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\player-icon2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Goal" xml:space="preserve">
+    <value>Goals</value>
+  </data>
+  <data name="rankingListTitle" xml:space="preserve">
+    <value>Ranking lists</value>
+  </data>
   <data name="submitError" xml:space="preserve">
     <value>Select all fields!</value>
+  </data>
+  <data name="visitors" xml:space="preserve">
+    <value>visitors</value>
+  </data>
+  <data name="YellowCard" xml:space="preserve">
+    <value>Yellow cards</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="exitConfirm" xml:space="preserve">
+    <value>Are you sure you want to exit?</value>
+  </data>
+  <data name="exitConfirmCaption" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="favoriteError" xml:space="preserve">
+    <value>Maximum number of favorite players is 3!</value>
+  </data>
+  <data name="favoriteErrorCaption" xml:space="preserve">
+    <value>Limit reached</value>
   </data>
 </root>

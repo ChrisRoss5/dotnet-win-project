@@ -1,8 +1,11 @@
 ﻿using ClassLibrary;
 using ClassLibrary.Models;
 using ClassLibrary.Repo;
+using ClassLibrary.Services;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing.Printing;
+using System.Resources;
 using System.Windows.Forms;
 using WinFormsApp.Properties;
 
@@ -10,14 +13,15 @@ namespace WinFormsApp
 {
     public partial class RankingListsForm : Form
     {
-        public static readonly IRepo repo = RepoFactory.GetRepo();
-        private readonly string country;
+        private readonly IWorldCupService worldCupService = new WorldCupService(new RestApiRepo());
+        private readonly ResourceManager rm = new(typeof(Resources));
+        private readonly string countryCode;
 
-        public RankingListsForm(string country)
+        public RankingListsForm(string team)
         {
             InitializeComponent();
-            Text = $"Ranking lists - {country}";
-            this.country = country;
+            Text = $"{rm.GetString("rankingListTitle")} - {team}";
+            countryCode = team.Split('(', ')')[1];
         }
 
         private void RankingListsForm_Load(object sender, EventArgs e)
@@ -27,9 +31,9 @@ namespace WinFormsApp
             LoadMatchRankings(panel3);
         }
 
-        private void LoadPlayerRankings(Panel panel, TypeOfEvent _event)
+        private async void LoadPlayerRankings(Panel panel, TypeOfEvent _event)
         {
-            var list = repo.GetPlayersWithEventCount(country, _event);
+            var list = await worldCupService.GetPlayersWithEventCount(countryCode, _event);
             var playerImagesPath = Settings.SolutionFolderPath + "/PlayerImages/";
             int rank = 1, lastGoals = list[0].Value;
             foreach (var (player, goals) in list)
@@ -46,7 +50,7 @@ namespace WinFormsApp
                         Location = new Point(10, 10),
                     },
                     CreateItemLabel($"{player.Name}", new Point(60, 10), true),
-                    CreateItemLabel($"{goals} {_event}", new Point(60, 35))
+                    CreateItemLabel($"{rm.GetString(_event.ToString())}: {goals}", new Point(60, 35))
                 );
                 panel.Controls.Add(listItem);
                 listItem.BringToFront();
@@ -54,15 +58,16 @@ namespace WinFormsApp
             }
         }
 
-        private void LoadMatchRankings(Panel panel)
+        private async void LoadMatchRankings(Panel panel)
         {
-            var list = repo.GetMatches(country).OrderByDescending(m => m.Attendance).ToList();
+            var list = (await worldCupService.GetMatches(countryCode))
+                .OrderByDescending(m => m.Attendance).ToList();
             int rank = 1, lastAttendance = (int)list[0].Attendance;
             panel.Controls.AddRange(list.Select((m, i) => CreateListItem(
                 m.Attendance < lastAttendance ? ++rank : rank,
                 CreateItemLabel($"{m.HomeTeamCountry} VS {m.AwayTeamCountry}", new Point(20, 10), true),
                 CreateItemLabel($"{m.Location}", new Point(20, 35)),
-                CreateItemLabel($"{m.Attendance} visitors", new Point(20, 60))
+                CreateItemLabel($"{m.Attendance} {rm.GetString("visitors")}", new Point(20, 60))
             )).Reverse().ToArray());
         }
 
@@ -123,7 +128,7 @@ namespace WinFormsApp
             int newWidth = (int)(newHeight * aspectRatio);
             int x = e.MarginBounds.Left + (e.MarginBounds.Width - newWidth) / 2;
             int y = e.MarginBounds.Top + (e.MarginBounds.Height - newHeight) / 2;
-            e.Graphics.DrawImage(controlBitmap, x, y, newWidth, newHeight);
+            e.Graphics!.DrawImage(controlBitmap, x, y, newWidth, newHeight);
         }
     }
 }

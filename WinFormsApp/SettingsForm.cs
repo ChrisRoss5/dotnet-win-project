@@ -32,7 +32,7 @@ namespace WinFormsApp
                 (languageComboBox.SelectedIndex, championshipComboBox.SelectedIndex);
             if (languageIdx == -1 || championshipIdx == -1)
             {
-                MessageBox.Show(rm.GetString("submitError"), "Error",
+                MessageBox.Show(rm.GetString("submitError"), rm.GetString("error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
