@@ -9,7 +9,7 @@ namespace WinFormsApp
 {
     public partial class SettingsForm : Form
     {
-        public const string fileName = "language_and_championship.txt";
+        public const string fileName = "settings.txt";
         private static readonly ResourceManager rm = new(typeof(Resources));
 
         public SettingsForm()

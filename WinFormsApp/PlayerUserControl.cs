@@ -24,8 +24,8 @@ namespace WinFormsApp
             if (player.Captain)
             {
                 nameLabel.Font = new Font(Font, FontStyle.Bold);
-                detailsLabel.Text += " | " + (CultureInfo.CurrentUICulture.Name
-                    == "en" ? "Captain" : "Kapetan");
+                detailsLabel.Text += " | " + (
+                    CultureInfo.CurrentUICulture.Name == "en" ? "Captain" : "Kapetan");
             }
             var files = Directory.GetFiles(playerImagesPath, player.Name + ".*");
             if (files.Length > 0)
