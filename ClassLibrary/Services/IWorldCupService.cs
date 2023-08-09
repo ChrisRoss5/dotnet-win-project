@@ -7,7 +7,6 @@ namespace ClassLibrary.Services
         Task<List<Team>> GetTeams();
         Task<List<Match>> GetMatches(string countryCode);
         Task<List<Player>> GetPlayers(string countryCode);
-        Task<List<Player>> GetStartingEleven(string countryCode);
         Task<List<KeyValuePair<Player, int>>> GetPlayersWithEventCount(string countryCode, TypeOfEvent _event);
         Task<Result> GetResults(string countryCode);
     }

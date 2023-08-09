@@ -1,15 +1,34 @@
 ﻿using ClassLibrary.Models;
 using ClassLibrary.Repo;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Configuration;
+using System.Xml;
 
 namespace ClassLibrary.Services
 {
     public class WorldCupService : IWorldCupService
     {
         private readonly IRepo repo;
+        private static readonly IRepo defaultRepo;
+        private static readonly bool forceDefaultRepo;
 
-        public WorldCupService(IRepo repo)
+        static WorldCupService()
         {
-            this.repo = repo; // new FileRepo(); // new RestApiRepo();
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
+            var jObject = JObject.Parse(File.ReadAllText(Path.Combine(path)));
+            defaultRepo = jObject.GetValue(nameof(defaultRepo))!.ToString() switch
+            {
+                "FileRepo" => new FileRepo(),
+                "RestApiRepo" => new RestApiRepo(),
+                _ => throw new Exception("Invalid defaultRepo value in appsettings.json")
+            };
+            forceDefaultRepo = jObject.GetValue(nameof(forceDefaultRepo))!.ToString() == "true";
+        }
+
+        public WorldCupService(IRepo? repo)
+        {
+            this.repo = repo == null || forceDefaultRepo ? defaultRepo : repo;
         }
 
         public Task<List<Team>> GetTeams() => repo.GetTeams();
@@ -22,17 +41,6 @@ namespace ClassLibrary.Services
                 .SelectMany(m => m.HomeTeam.Code == countryCode
                     ? m.HomeTeamStatistics.StartingEleven.Union(m.HomeTeamStatistics.Substitutes)
                     : m.AwayTeamStatistics.StartingEleven.Union(m.AwayTeamStatistics.Substitutes))
-                .DistinctBy(p => p.ShirtNumber)
-                .OrderByDescending(p => p.ShirtNumber)
-                .ToList();
-        }
-
-        public async Task<List<Player>> GetStartingEleven(string countryCode)
-        {
-            return (await GetMatches(countryCode))
-                .SelectMany(m => m.HomeTeam.Code == countryCode
-                                   ? m.HomeTeamStatistics.StartingEleven
-                                                      : m.AwayTeamStatistics.StartingEleven)
                 .DistinctBy(p => p.ShirtNumber)
                 .OrderByDescending(p => p.ShirtNumber)
                 .ToList();
