@@ -8,7 +8,6 @@ namespace WinFormsApp
     public partial class PlayerUserControl : UserControl
     {
         public readonly Player player;
-        private static readonly string playerImagesPath = Settings.SolutionFolderPath + "/PlayerImages/";
 
         public PlayerUserControl(Player player)
         {
@@ -27,9 +26,9 @@ namespace WinFormsApp
                 detailsLabel.Text += " | " + (
                     CultureInfo.CurrentUICulture.Name == "en" ? "Captain" : "Kapetan");
             }
-            var files = Directory.GetFiles(playerImagesPath, player.Name + ".*");
-            if (files.Length > 0)
-                playerPictureBox.Image = Image.FromFile(files[0]);
+            var path = Settings.GetPlayerImagePath(player.Name);
+            if (path != "")
+                playerPictureBox.Image = Image.FromFile(path);
         }
 
         public void setFavorite(bool favorite)
@@ -78,12 +77,12 @@ namespace WinFormsApp
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "Select a Image";
             fileDialog.Filter = "Images (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
-            if (!Directory.Exists(playerImagesPath))
-                Directory.CreateDirectory(playerImagesPath);
+            if (!Directory.Exists(Settings.playerImagesPath))
+                Directory.CreateDirectory(Settings.playerImagesPath);
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                string destination = playerImagesPath + player.Name + Path.GetExtension(filePath);
+                string destination = Settings.playerImagesPath + player.Name + Path.GetExtension(filePath);
                 File.Copy(filePath, destination);
                 playerPictureBox.Image = new Bitmap(fileDialog.OpenFile());
             }

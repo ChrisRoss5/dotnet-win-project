@@ -1,12 +1,91 @@
-﻿<Window x:Class="WpfApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp"
-        mc:Ignorable="d"
-        Height="450" Width="800">
+﻿<Window
+    x:Class="WpfApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:WpfApp.Converters"
+    Width="800"
+    Height="450"
+    Closing="Window_Closing"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:IndexToBoolConverter x:Key="IndexToBoolConverter" />
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard TargetProperty="(Button.Background).(SolidColorBrush.Color)">
+                            <ColorAnimation
+                                AutoReverse="True"
+                                To="LightGreen"
+                                Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Click="MenuItem_Click" Header="{DynamicResource settings}" />
+        </Menu>
+        <Grid
+            Grid.Row="0"
+            MaxWidth="500"
+            Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Label HorizontalAlignment="Center" Content="{DynamicResource firstTeam}" />
+                <ComboBox x:Name="firstTeamComboBox" SelectionChanged="firstTeamComboBox_SelectionChanged" />
+                <Button
+                    x:Name="firstTeamButton"
+                    Click="firstTeamButton_Click"
+                    Content="{DynamicResource teamDetails}"
+                    IsEnabled="{Binding SelectedIndex, ElementName=firstTeamComboBox, Converter={StaticResource IndexToBoolConverter}}"
+                    Style="{StaticResource ButtonStyle}" />
+            </StackPanel>
+            <Label
+                x:Name="resultLabel"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="vs"
+                FontSize="20" />
+            <StackPanel Grid.Row="0" Grid.Column="2">
+                <Label HorizontalAlignment="Center" Content="{DynamicResource secondTeam}" />
+                <ComboBox x:Name="secondTeamComboBox" SelectionChanged="secondTeamComboBox_SelectionChanged" />
+                <Button
+                    x:Name="secondTeamButton"
+                    Click="secondTeamButton_Click"
+                    Content="{DynamicResource teamDetails}"
+                    IsEnabled="{Binding SelectedIndex, ElementName=secondTeamComboBox, Converter={StaticResource IndexToBoolConverter}}"
+                    Style="{StaticResource ButtonStyle}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Image Source="/Images/football-field.jpg" Stretch="Fill" />
+            <UniformGrid x:Name="fieldGrid" Columns="8">
+                <UniformGrid x:Name="firstTeamGoalie" Columns="1" />
+                <UniformGrid x:Name="firstTeamDefender" Columns="1" />
+                <UniformGrid x:Name="firstTeamMidfield" Columns="1" />
+                <UniformGrid x:Name="firstTeamForward" Columns="1" />
+                <UniformGrid x:Name="secondTeamForward" Columns="1" />
+                <UniformGrid x:Name="secondTeamMidfield" Columns="1" />
+                <UniformGrid x:Name="secondTeamDefender" Columns="1" />
+                <UniformGrid x:Name="secondTeamGoalie" Columns="1" />
+            </UniformGrid>
+        </Grid>
     </Grid>
 </Window>

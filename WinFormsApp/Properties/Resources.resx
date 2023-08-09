@@ -119,13 +119,13 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="player-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\player-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Images\player-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="star-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\star-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Images\star-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="player-icon2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\player-icon2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="player-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\player-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Goal" xml:space="preserve">
     <value>Goals</value>
@@ -156,5 +156,11 @@
   </data>
   <data name="favoriteErrorCaption" xml:space="preserve">
     <value>Limit reached</value>
+  </data>
+  <data name="confirmSettings" xml:space="preserve">
+    <value>Are you sure you want to save these settings?</value>
+  </data>
+  <data name="confirmSettingsCaption" xml:space="preserve">
+    <value>Confirm settings</value>
   </data>
 </root>

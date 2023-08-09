@@ -1,5 +1,4 @@
 ﻿using ClassLibrary.Models;
-using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
 
@@ -20,6 +19,11 @@ namespace ClassLibrary.Repo
         public Task<List<Match>> GetMatches(string countryCode)
         {
             return Request<List<Match>>($"matches/country?fifa_code={countryCode}");
+        }
+
+        public Task<List<Result>> GetResults()
+        {
+            return Request<List<Result>>("teams/results");
         }
 
         private Task<T> Request<T>(string path)

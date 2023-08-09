@@ -51,10 +51,10 @@ namespace ClassLibrary.Models
         public string WinnerCode { get; set; }
 
         [JsonProperty("home_team")]
-        public Team HomeTeam { get; set; }
+        public MatchTeam HomeTeam { get; set; }
 
         [JsonProperty("away_team")]
-        public Team AwayTeam { get; set; }
+        public MatchTeam AwayTeam { get; set; }
 
         [JsonProperty("home_team_events")]
         public List<TeamEvent> HomeTeamEvents { get; set; }
@@ -73,6 +73,21 @@ namespace ClassLibrary.Models
 
         [JsonProperty("last_score_update_at")]
         public DateTimeOffset? LastScoreUpdateAt { get; set; }
+    }
+
+    public partial class MatchTeam
+    {
+        [JsonProperty("country")]
+        public string Country { get; set; }
+
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("goals")]
+        public long Goals { get; set; }
+
+        [JsonProperty("penalties")]
+        public long Penalties { get; set; }
     }
 
     public partial class TeamEvent

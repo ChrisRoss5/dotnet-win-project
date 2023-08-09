@@ -15,10 +15,11 @@ namespace WinFormsApp
 
         public MainForm()
         {
-            if (!Settings.SettingsExist(SettingsForm.fileName)
-                && new SettingsForm().ShowDialog() != DialogResult.OK)
+            if (!Settings.SettingsExist() && new SettingsForm(true).ShowDialog() != DialogResult.OK)
                 Application.Exit();
             ApplySettingsAndInitalize(true);
+            FormClosing += MainForm_FormClosing!;  // Potrebno ovdje umjesto u designeru jer bi se
+                                                   // zbog InitializeComponent() ponavljalo svakom promjenom postavki
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -29,32 +30,34 @@ namespace WinFormsApp
 
         private void ApplySettingsAndInitalize(bool isStartup = false)
         {
-            string[] settings = Settings.LoadSettings(SettingsForm.fileName);
+            var settings = Settings.LoadSettings().Select(int.Parse).ToArray();
             (var language, var championship) = (settings[0], settings[1]);
-            Settings.ChampionshipPath = championship == "0" ? "men" : "women";
-            CultureInfo culture = new(language == "0" ? "en" : "hr");
+            Settings.ChampionshipPath = championship == 0 ? "men" : "women";
+            CultureInfo culture = new(language == 0 ? "en" : "hr");
             Thread.CurrentThread.CurrentCulture = culture;   // Globalizacija (vrijeme, datum, valuta)
             Thread.CurrentThread.CurrentUICulture = culture; // Lokalizacija (prijevodi)
             Controls.Clear();
             InitializeComponent();
-            var enTitle = $"{(championship == "0" ? "Men's" : "Women's")} World Cup";
-            var hrTitle = $"{(championship == "0" ? "Muško" : "Žensko")} Svjetsko prvenstvo";
-            Text = $"FIFA {(language == "0" ? enTitle : hrTitle)} 2019";
+            var enTitle = $"{(championship == 0 ? "Men's" : "Women's")} World Cup";
+            var hrTitle = $"{(championship == 0 ? "Muško" : "Žensko")} Svjetsko prvenstvo";
+            Text = $"FIFA {(language == 0 ? enTitle : hrTitle)} {(championship == 0 ? "2018" : "2019")}";
             if (!isStartup)
                 MainForm_Load(this, EventArgs.Empty);
         }
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
+            comboBoxLoaded = false;
             var teams = await worldCupService.GetTeams();
             comboBox.Items.AddRange(teams.Select(t => $"{t.Country} ({t.FifaCode})").ToArray());
             var fileName = $"favorite-{Settings.ChampionshipPath}-team.txt";
-            comboBoxLoaded = false;
             if (Settings.SettingsExist(fileName))
+            {
                 comboBox.Text = Settings.LoadSettings(fileName)[0];
+                LoadPlayers();
+            }
             else button1.Enabled = false;
             comboBoxLoaded = true;
-            LoadPlayers();
         }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,16 +72,15 @@ namespace WinFormsApp
 
         private async void LoadPlayers()
         {
-            var countyCode = comboBox.Text.Split('(', ')')[1];
-            var players = await worldCupService.GetPlayers(countyCode);
+            var countryCode = comboBox.Text.Split('(', ')')[1];
+            var players = await worldCupService.GetPlayers(countryCode);
             var playerControls = players.Select(p => new PlayerUserControl(p)).ToArray();
             playersPanel.Controls.Clear();
             playersPanel.Controls.AddRange(playerControls);
             var fileName = $"favorite-{Settings.ChampionshipPath}-players.txt";
             if (Settings.SettingsExist(fileName))
                 foreach (var playerName in Settings.LoadSettings(fileName))
-                    playerControls.FirstOrDefault(
-                        p => p.player.Name == playerName)?.setFavorite(true);
+                    playerControls.FirstOrDefault(p => p.player.Name == playerName)?.setFavorite(true);
         }
 
         private void panel_DragEnter(object sender, DragEventArgs e)
@@ -112,7 +114,7 @@ namespace WinFormsApp
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing)
+            if (Settings.confirmDialogsEnabled && e.CloseReason == CloseReason.UserClosing)
                 e.Cancel = MessageBox.Show(rm.GetString("exitConfirm"), rm.GetString("exitConfirmCaption"),
                     MessageBoxButtons.OKCancel) == DialogResult.Cancel;
         }

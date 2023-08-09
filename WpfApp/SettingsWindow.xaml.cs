@@ -1,49 +1,54 @@
 ﻿using ClassLibrary;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfApp
 {
     public partial class SettingsWindow : Window
     {
-        public const string fileName = "settings.txt";
+        private readonly bool isFirstStartup = false;
+        private List<ComboBox> comboBoxes = null!;
+        public static readonly List<(int w, int h)> resolutions = new()
+        {
+            ( 800, 600 ),
+            ( 1024, 768 ),
+            ( 1280, 800 )
+        };
 
-        public SettingsWindow()
+        public SettingsWindow(bool isFirstStartup = false)
         {
             InitializeComponent();
+            this.isFirstStartup = isFirstStartup;
         }
 
-        private void Window_Initialized(object sender, EventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!Settings.SettingsExist(fileName))
-                return;
-            string[] settings = Settings.LoadSettings(fileName);
-            languageComboBox.SelectedIndex = int.Parse(settings[0]);
-            championshipComboBox.SelectedIndex = int.Parse(settings[1]);
+            resolutionComboBox.ItemsSource = resolutions.Select(r => $"{r.w}x{r.h}")
+                .Concat(new[] { FindResource("fullscreen") as string });
+            comboBoxes = new List<ComboBox> { languageComboBox, championshipComboBox, resolutionComboBox };
+            if (!Settings.SettingsExist()) return;
+            var settings = Settings.LoadSettings();
+            for (int i = 0; i < settings.Length; i++)
+                comboBoxes[i].SelectedIndex = int.Parse(settings[i]);
         }
 
         private void confirmButton_Click(object sender, RoutedEventArgs e)
         {
-            var (languageIdx, championshipIdx) =
-                (languageComboBox.SelectedIndex, championshipComboBox.SelectedIndex);
-            if (languageIdx == -1 || championshipIdx == -1)
+            var indexes = comboBoxes.Select(el => el.SelectedIndex.ToString());
+            if (indexes.Any(el => el == "-1"))
             {
-                MessageBox.Show(FindResource("submitError") as string, 
+                MessageBox.Show(FindResource("submitError") as string,
                     FindResource("error") as string, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            Settings.SaveSettings(fileName, languageIdx.ToString(), championshipIdx.ToString());
+            if (!isFirstStartup && Settings.confirmDialogsEnabled &&
+                MessageBox.Show(FindResource("confirmSettings") as string,
+                FindResource("confirmSettingsTitle") as string,
+                MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+                return;
+            Settings.SaveSettings(settings: indexes.ToArray());
             DialogResult = true;
             Close();
         }

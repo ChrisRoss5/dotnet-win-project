@@ -8,7 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\football-field.jpg" />
+    <None Remove="Images\player-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Resources\Resources.hr.xaml" />
+    <Page Remove="Resources\Resources.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
+    <ProjectReference Include="..\WinFormsApp\WinFormsApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\football-field.jpg" />
+    <Resource Include="Images\player-icon.png" />
+    <Resource Include="Resources\Resources.xaml" />
+    <Resource Include="Resources\Resources.hr.xaml" />
   </ItemGroup>
 
   <ItemGroup>

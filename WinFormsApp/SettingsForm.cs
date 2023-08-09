@@ -1,43 +1,46 @@
 ﻿using ClassLibrary;
-using System.ComponentModel;
-using System.Globalization;
 using System.Resources;
-using System.Text.RegularExpressions;
 using WinFormsApp.Properties;
 
 namespace WinFormsApp
 {
     public partial class SettingsForm : Form
     {
-        public const string fileName = "settings.txt";
         private static readonly ResourceManager rm = new(typeof(Resources));
+        private readonly bool isFirstStartup = false;
 
-        public SettingsForm()
+        public SettingsForm(bool isFirstStartup = false)
         {
             InitializeComponent();
+            this.isFirstStartup = isFirstStartup;
         }
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            if (!Settings.SettingsExist(fileName))
-                return;
-            string[] settings = Settings.LoadSettings(fileName);
+            if (!Settings.SettingsExist()) return;
+            string[] settings = Settings.LoadSettings();
             languageComboBox.SelectedIndex = int.Parse(settings[0]);
             championshipComboBox.SelectedIndex = int.Parse(settings[1]);
         }
 
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            var (languageIdx, championshipIdx) =
-                (languageComboBox.SelectedIndex, championshipComboBox.SelectedIndex);
-            if (languageIdx == -1 || championshipIdx == -1)
+            var indexes = new[] { languageComboBox, championshipComboBox }
+                .Select(el => el.SelectedIndex.ToString()).ToList();
+            if (indexes.Any(el => el == "-1"))
             {
                 MessageBox.Show(rm.GetString("submitError"), rm.GetString("error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Settings.SaveSettings(fileName, languageIdx.ToString(), championshipIdx.ToString());
-            this.DialogResult = DialogResult.OK;
+            if (!isFirstStartup && Settings.confirmDialogsEnabled &&
+                MessageBox.Show(rm.GetString("confirmSettings"), rm.GetString("confirmSettingsCaption"),
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+                return;
+            if (Settings.SettingsExist(length: 3))
+                indexes.Add(Settings.LoadSettings()[2]);
+            Settings.SaveSettings(settings: indexes.ToArray());
+            DialogResult = DialogResult.OK;
             Close();
         }
 

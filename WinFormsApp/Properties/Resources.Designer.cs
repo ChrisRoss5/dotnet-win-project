@@ -61,6 +61,24 @@ namespace WinFormsApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to save these settings?.
+        /// </summary>
+        internal static string confirmSettings {
+            get {
+                return ResourceManager.GetString("confirmSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm settings.
+        /// </summary>
+        internal static string confirmSettingsCaption {
+            get {
+                return ResourceManager.GetString("confirmSettingsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string error {
@@ -129,7 +147,7 @@ namespace WinFormsApp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap player_icon2 {
             get {
-                object obj = ResourceManager.GetObject("player-icon2", resourceCulture);
+                object obj = ResourceManager.GetObject("player-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

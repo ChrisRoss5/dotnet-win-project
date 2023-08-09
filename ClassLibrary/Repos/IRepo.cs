@@ -6,5 +6,6 @@ namespace ClassLibrary.Repo
     {
         Task<List<Team>> GetTeams();
         Task<List<Match>> GetMatches(string countryCode);
+        Task<List<Result>> GetResults();
     }
 }

@@ -3,10 +3,8 @@ using ClassLibrary.Models;
 using ClassLibrary.Repo;
 using ClassLibrary.Services;
 using System.Data;
-using System.Diagnostics.Metrics;
 using System.Drawing.Printing;
 using System.Resources;
-using System.Windows.Forms;
 using WinFormsApp.Properties;
 
 namespace WinFormsApp
@@ -34,12 +32,11 @@ namespace WinFormsApp
         private async void LoadPlayerRankings(Panel panel, TypeOfEvent _event)
         {
             var list = await worldCupService.GetPlayersWithEventCount(countryCode, _event);
-            var playerImagesPath = Settings.SolutionFolderPath + "/PlayerImages/";
             int rank = 1, lastGoals = list[0].Value;
             foreach (var (player, goals) in list)
             {
-                var files = Directory.GetFiles(playerImagesPath, player.Name + ".*");
-                var image = files.Length > 0 ? Image.FromFile(files[0]) : Resources.player_icon2;
+                var path = Settings.GetPlayerImagePath(player.Name);
+                var image = path != "" ? Image.FromFile(path) : Resources.player_icon2;
                 var listItem = CreateListItem(
                     goals < lastGoals ? ++rank : rank,
                     new PictureBox
@@ -119,7 +116,7 @@ namespace WinFormsApp
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
             printPanel.BackColor = Color.White;
-            Bitmap controlBitmap = new Bitmap(printPanel.Width, printPanel.Height);
+            Bitmap controlBitmap = new(printPanel.Width, printPanel.Height);
             printPanel.DrawToBitmap(controlBitmap, new Rectangle(
                 0, 0, printPanel.Width, printPanel.Height));
             printPanel.BackColor = DefaultBackColor;

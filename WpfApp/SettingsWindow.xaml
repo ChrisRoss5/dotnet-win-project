@@ -8,9 +8,8 @@
     Title="{DynamicResource settings}"
     Width="350"
     Height="250"
-    Initialized="Window_Initialized"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Window_Loaded">
     <Grid
         MaxWidth="350"
         MaxHeight="250"
@@ -27,6 +26,7 @@
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="s" TargetType="{x:Type Control}">
+                <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Height" Value="25" />
                 <Setter Property="Margin" Value="5" />
             </Style>
@@ -63,12 +63,7 @@
         <ComboBox
             x:Name="resolutionComboBox"
             Grid.Row="2"
-            Grid.Column="1">
-            <ComboBoxItem Content="720x480" />
-            <ComboBoxItem Content="720x480" />
-            <ComboBoxItem Content="720x480" />
-            <ComboBoxItem Content="{DynamicResource fullscreen}" />
-        </ComboBox>
+            Grid.Column="1" />
         <Button
             x:Name="cancelButton"
             Grid.Row="3"

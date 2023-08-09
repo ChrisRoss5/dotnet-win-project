@@ -1,6 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- General -->    
+    <system:String x:Key="error">Greška</system:String>
+    <system:String x:Key="submitError">Odaberite sva polja!</system:String>
+    <system:String x:Key="exit">Izlaz</system:String>
+    <system:String x:Key="exitConfirm">Jeste li sigurni da želite izaći?</system:String>
+
+    <!-- Settings -->
     <system:String x:Key="settings">Postavke</system:String>
     <system:String x:Key="selectLanguage">Odaberi jezik:</system:String>
     <system:String x:Key="selectChampionship">Odaberi prvenstvo:</system:String>
@@ -12,8 +19,23 @@
     <system:String x:Key="men">Muško</system:String>
     <system:String x:Key="women">Žensko</system:String>
     <system:String x:Key="fullscreen">Puni zaslon</system:String>
-    <system:String x:Key="error">Greška</system:String>
-    <system:String x:Key="submitError">Odaberite sva polja!</system:String>
-    <system:String x:Key="exit">Izlaz</system:String>
-    <system:String x:Key="exitConfirm">Jeste li sigurni da želite izaći?</system:String>
+    <system:String x:Key="confirmSettingsTitle">Potvrdi postavke</system:String>
+    <system:String x:Key="confirmSettings">Jeste li sigurni da želite spremiti postavke?</system:String>
+
+    <!-- Main -->
+    <system:String x:Key="firstTeam">Prva reprezentacija:</system:String>
+    <system:String x:Key="secondTeam">Druga reprezentacija:</system:String>
+    <system:String x:Key="teamDetails">Detalji reprezentacije</system:String>
+
+    <!-- Team window -->
+    <system:String x:Key="results">Rezultati</system:String>
+    <system:String x:Key="teamName">Naziv tima:</system:String>
+    <system:String x:Key="fifaCode">FIFA kod:</system:String>
+    <system:String x:Key="games">Broj utakmica:</system:String>
+    <system:String x:Key="wins">Broj pobjeda:</system:String>
+    <system:String x:Key="losses">Broj poraza:</system:String>
+    <system:String x:Key="draws">Broj neodlučenih:</system:String>
+    <system:String x:Key="goalsScored">Golova zabijenih:</system:String>
+    <system:String x:Key="goalsConceived">Golova primljenih:</system:String>
+    <system:String x:Key="goalDifference">Razlika golova:</system:String>
 </ResourceDictionary>

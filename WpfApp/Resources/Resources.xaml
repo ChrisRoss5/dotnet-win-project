@@ -1,6 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- General -->
+    <system:String x:Key="error">Error</system:String>
+    <system:String x:Key="submitError">Select all fields!</system:String>
+    <system:String x:Key="exit">Exit</system:String>
+    <system:String x:Key="exitConfirm">Are you sure you want to exit?</system:String>
+    
+    <!-- Settings window -->
     <system:String x:Key="settings">Settings</system:String>
     <system:String x:Key="selectLanguage">Select language:</system:String>
     <system:String x:Key="selectChampionship">Select championship:</system:String>
@@ -9,11 +16,31 @@
     <system:String x:Key="cancel">Cancel</system:String>
     <system:String x:Key="english">English</system:String>
     <system:String x:Key="croatian">Croatian</system:String>
-    <system:String x:Key="men">Men</system:String>
-    <system:String x:Key="women">Women</system:String>
+    <system:String x:Key="men">Men's</system:String>
+    <system:String x:Key="women">Women's</system:String>
     <system:String x:Key="fullscreen">Fullscreen</system:String>
-    <system:String x:Key="error">Error</system:String>
-    <system:String x:Key="submitError">Select all fields!</system:String>
-    <system:String x:Key="exit">Exit</system:String>
-    <system:String x:Key="exitConfirm">Are you sure you want to exit?</system:String>
+    <system:String x:Key="confirmSettingsTitle">Confirm settings</system:String>
+    <system:String x:Key="confirmSettings">Are you sure you want to save these settings?</system:String>
+
+    <!-- Main window -->
+    <system:String x:Key="firstTeam">First team:</system:String>
+    <system:String x:Key="secondTeam">Second team:</system:String>
+    <system:String x:Key="teamDetails">Team details</system:String>
+    
+    <!-- Team window -->
+    <system:String x:Key="results">Results</system:String>
+    <system:String x:Key="teamName">Team name:</system:String>
+    <system:String x:Key="fifaCode">FIFA code:</system:String>
+    <system:String x:Key="games">Number of games:</system:String>
+    <system:String x:Key="wins">Number of wins:</system:String>
+    <system:String x:Key="losses">Number of losses:</system:String>
+    <system:String x:Key="draws">Number of draws:</system:String>
+    <system:String x:Key="goalsScored">Goals scored:</system:String>
+    <system:String x:Key="goalsConceived">Goals conceived:</system:String>
+    <system:String x:Key="goalDifference">Goal difference:</system:String>
+    
+    <!-- Player window -->
+    <system:String x:Key="captain">Captain</system:String>
+    <system:String x:Key="goalsScoredThisGame">Goals scored this game:</system:String>
+    <system:String x:Key="yellowCardsThisGame">Yellow cards this game:</system:String>
 </ResourceDictionary>
