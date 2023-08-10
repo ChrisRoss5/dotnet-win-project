@@ -74,9 +74,11 @@ namespace WinFormsApp
 
         private void playerPictureBox_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new();
-            fileDialog.Title = "Select a Image";
-            fileDialog.Filter = "Images (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
+            OpenFileDialog fileDialog = new()
+            {
+                Title = "Select a Image",
+                Filter = "Images (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
             if (!Directory.Exists(UserSettings.PlayerImagesPath))
                 Directory.CreateDirectory(UserSettings.PlayerImagesPath);
             if (fileDialog.ShowDialog() == DialogResult.OK)

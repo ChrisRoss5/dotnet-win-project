@@ -13,11 +13,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\worldcup.sfg.io\**\*.*">
-			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<EmbeddedResource Include="..\worldcup.sfg.io\**\*.*" />
+		<EmbeddedResource Include="..\worldcup.sfg.io\**" />
 	</ItemGroup>
 </Project>

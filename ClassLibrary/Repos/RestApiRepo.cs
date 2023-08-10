@@ -12,19 +12,13 @@ namespace ClassLibrary.Repo
         );
 
         public Task<List<Team>> GetTeams()
-        {
-            return Request<List<Team>>("teams");
-        }
+            => Request<List<Team>>("teams");
 
         public Task<List<Match>> GetMatches(string countryCode)
-        {
-            return Request<List<Match>>($"matches/country?fifa_code={countryCode}");
-        }
+            => Request<List<Match>>($"matches/country?fifa_code={countryCode}");
 
         public Task<List<Result>> GetResults()
-        {
-            return Request<List<Result>>("teams/results");
-        }
+            => Request<List<Result>>("teams/results");
 
         private Task<T> Request<T>(string path)
         {

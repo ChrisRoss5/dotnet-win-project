@@ -1,10 +1,4 @@
 ﻿using ClassLibrary.Repo;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
@@ -18,7 +12,9 @@ namespace ClassLibrary
             ? Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName
             : Environment.CurrentDirectory;
 
-        // Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location):
-        // C:\Users\user\AppData\Local\Temp\.net\WpfApp\{random key}
+        /* Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location):
+         * C:\Users\user\AppData\Local\Temp\.net\WpfApp\{random key} */
+
+        /* Svi modeli u /Models generirani su s https://app.quicktype.io/csharp s minimalnim promjenama */
     }
 }

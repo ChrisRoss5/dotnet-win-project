@@ -7,9 +7,7 @@ namespace ClassLibrary.Repo
     public class FileRepo : IRepo
     {
         public Task<List<Team>> GetTeams()
-        {
-            return ParseFile<List<Team>>("teams");
-        }
+            => ParseFile<List<Team>>("teams");
 
         public async Task<List<Match>> GetMatches(string countryCode)
         {
@@ -19,14 +17,12 @@ namespace ClassLibrary.Repo
         }
 
         public Task<List<Result>> GetResults()
-        {
-            return ParseFile<List<Result>>("results");
-        }
+            => ParseFile<List<Result>>("results");
 
         private static async Task<T> ParseFile<T>(string fileName)
         {
-            var text = await (AppSettings.IsProduction 
-                ? ReadResourceFile(fileName) 
+            var text = await (AppSettings.IsProduction
+                ? ReadResourceFile(fileName)
                 : File.ReadAllTextAsync(
                     $"{AppSettings.SolutionPath}/worldcup.sfg.io/" +
                     $"{UserSettings.ChampionshipPath}/{fileName}.json"));

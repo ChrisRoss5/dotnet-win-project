@@ -1,15 +1,10 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-
-namespace ClassLibrary
+﻿namespace ClassLibrary
 {
     public static class UserSettings
     {
         private const char delimiter = ',';
         private const string defaultSettings = "settings.txt";
-
         public static string PlayerImagesPath { get; } = "/PlayerImages/";
-
         public static string ChampionshipPath { get; set; } = null!;
 
         public static bool SettingsExist(string fileName = defaultSettings, int length = 0)
