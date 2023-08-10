@@ -1,47 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Images\football-field.jpg" />
-    <None Remove="Images\player-icon.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Remove="Resources\Resources.hr.xaml" />
-    <Page Remove="Resources\Resources.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
-    <ProjectReference Include="..\WinFormsApp\WinFormsApp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\football-field.jpg" />
-    <Resource Include="Images\player-icon.png" />
-    <Resource Include="Resources\Resources.xaml" />
-    <Resource Include="Resources\Resources.hr.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
+	<ItemGroup>
+		<Resource Include="Images\football-field.jpg" />
+		<Resource Include="Images\player-icon.png" />
+		<Resource Include="Resources\Resources.xaml" />
+		<Resource Include="Resources\Resources.hr.xaml" />
+	</ItemGroup>
 </Project>

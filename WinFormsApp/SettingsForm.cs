@@ -33,7 +33,7 @@ namespace WinFormsApp
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (!isFirstStartup && Settings.confirmDialogsEnabled &&
+            if (!isFirstStartup && AppSettings.ConfirmDialogsEnabled &&
                 MessageBox.Show(rm.GetString("confirmSettings"), rm.GetString("confirmSettingsCaption"),
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
                 return;

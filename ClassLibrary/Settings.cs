@@ -1,13 +1,21 @@
-﻿namespace ClassLibrary
+﻿using System.Diagnostics;
+using System.Reflection;
+
+namespace ClassLibrary
 {
     public static class Settings
     {
         private const char delimiter = ',';
         private const string settingsFileName = "settings.txt";
-        public const bool confirmDialogsEnabled = false;
+        public const bool ConfirmDialogsEnabled = false;
 
         public static readonly string solutionFolderPath =
-            Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName;
+            Environment.GetEnvironmentVariable("APP_ENV") == "Development"
+                ? Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName
+                : Environment.CurrentDirectory;
+
+        // Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location):
+        // C:\Users\user\AppData\Local\Temp\.net\WpfApp\{random key}
 
         public static readonly string playerImagesPath = solutionFolderPath + "/PlayerImages/";
 
@@ -15,7 +23,7 @@
 
         public static bool SettingsExist(string fileName = settingsFileName, int length = 0)
         {
-            return File.Exists($"{solutionFolderPath}/{fileName}") 
+            return File.Exists($"{solutionFolderPath}/{fileName}")
                 && LoadSettings(fileName).Length >= length;
         }
 

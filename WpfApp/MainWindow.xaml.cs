@@ -38,6 +38,7 @@ namespace WpfApp
         {
             var settings = Settings.LoadSettings().Select(int.Parse).ToArray();
             (var language, var championship, var resolution) = (settings[0], settings[1], settings[2]);
+            var prevChampionshipPath = Settings.ChampionshipPath;
             Settings.ChampionshipPath = championship == 0 ? "men" : "women";
             CultureInfo culture = new(language == 0 ? "en" : "hr");
             Thread.CurrentThread.CurrentCulture = culture;   // Globalizacija (vrijeme, datum, valuta)
@@ -50,8 +51,7 @@ namespace WpfApp
                 ? WindowState.Maximized : WindowState.Normal;
             if (resolution < SettingsWindow.resolutions.Count)
                 (Width, Height) = SettingsWindow.resolutions[resolution];
-            
-            if (!isStartup)
+            if (!isStartup && prevChampionshipPath != Settings.ChampionshipPath)
                 Window_Loaded(null, null);
         }
 
@@ -63,20 +63,24 @@ namespace WpfApp
             var fileName = $"favorite-{Settings.ChampionshipPath}-team.txt";
             if (Settings.SettingsExist(fileName))
                 firstTeamComboBox.Text = Settings.LoadSettings(fileName)[0];
-            else secondTeamComboBox.IsEnabled = false;
+            else
+            {
+                firstTeamComboBox.SelectedIndex = -1;
+                secondTeamComboBox.IsEnabled = false;
+            }
         }
 
         private async void firstTeamComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ClearPlayers();
+            resultLabel.Content = "vs";
+            secondTeamComboBox.SelectedIndex = -1;
             if (firstTeamComboBox.SelectedIndex == -1) return;
             var countryCode = GetComboBoxCountryCode(firstTeamComboBox);
             var matches = await GetMatches(firstTeamComboBox);
-            secondTeamComboBox.SelectedIndex = -1;
             secondTeamComboBox.ItemsSource = matches
                 .Select(m => m.HomeTeam.Code == countryCode ? m.AwayTeam : m.HomeTeam)
                 .Select(t => $"{t.Country} ({t.Code})");
-            resultLabel.Content = "vs";
             secondTeamComboBox.IsEnabled = true;
         }
 
@@ -154,7 +158,7 @@ namespace WpfApp
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (Settings.confirmDialogsEnabled)
+            if (AppSettings.ConfirmDialogsEnabled)
                 e.Cancel = MessageBox.Show(FindResource("exitConfirm") as string, FindResource("exit") as string,
                     MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK;
         }

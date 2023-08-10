@@ -23,10 +23,10 @@ namespace ClassLibrary.Services
                 "RestApiRepo" => new RestApiRepo(),
                 _ => throw new Exception("Invalid defaultRepo value in appsettings.json")
             };
-            forceDefaultRepo = jObject.GetValue(nameof(forceDefaultRepo))!.ToString() == "true";
+            forceDefaultRepo = (bool)jObject.GetValue(nameof(forceDefaultRepo))!;
         }
 
-        public WorldCupService(IRepo? repo)
+        public WorldCupService(IRepo? repo = null)
         {
             this.repo = repo == null || forceDefaultRepo ? defaultRepo : repo;
         }

@@ -43,7 +43,7 @@ namespace WpfApp
                     FindResource("error") as string, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (!isFirstStartup && Settings.confirmDialogsEnabled &&
+            if (!isFirstStartup && AppSettings.ConfirmDialogsEnabled &&
                 MessageBox.Show(FindResource("confirmSettings") as string,
                 FindResource("confirmSettingsTitle") as string,
                 MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
