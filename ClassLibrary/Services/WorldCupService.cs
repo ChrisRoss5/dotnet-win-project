@@ -9,26 +9,12 @@ namespace ClassLibrary.Services
 {
     public class WorldCupService : IWorldCupService
     {
-        private readonly IRepo repo;
-        private static readonly IRepo defaultRepo;
-        private static readonly bool forceDefaultRepo;
-
-        static WorldCupService()
-        {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
-            var jObject = JObject.Parse(File.ReadAllText(Path.Combine(path)));
-            defaultRepo = jObject.GetValue(nameof(defaultRepo))!.ToString() switch
-            {
-                "FileRepo" => new FileRepo(),
-                "RestApiRepo" => new RestApiRepo(),
-                _ => throw new Exception("Invalid defaultRepo value in appsettings.json")
-            };
-            forceDefaultRepo = (bool)jObject.GetValue(nameof(forceDefaultRepo))!;
-        }
+        private readonly IRepo repo = AppSettings.DefaultRepo;
 
         public WorldCupService(IRepo? repo = null)
         {
-            this.repo = repo == null || forceDefaultRepo ? defaultRepo : repo;
+            if (repo != null && !AppSettings.ForceDefaultRepo)
+                this.repo = repo;
         }
 
         public Task<List<Team>> GetTeams() => repo.GetTeams();

@@ -15,7 +15,7 @@ namespace WinFormsApp
 
         public MainForm()
         {
-            if (!Settings.SettingsExist() && new SettingsForm(true).ShowDialog() != DialogResult.OK)
+            if (!UserSettings.SettingsExist() && new SettingsForm(true).ShowDialog() != DialogResult.OK)
                 Application.Exit();
             ApplySettingsAndInitalize(true);
             FormClosing += MainForm_FormClosing!;  // Potrebno ovdje umjesto u designeru jer bi se
@@ -30,9 +30,9 @@ namespace WinFormsApp
 
         private void ApplySettingsAndInitalize(bool isStartup = false)
         {
-            var settings = Settings.LoadSettings().Select(int.Parse).ToArray();
+            var settings = UserSettings.LoadSettings().Select(int.Parse).ToArray();
             (var language, var championship) = (settings[0], settings[1]);
-            Settings.ChampionshipPath = championship == 0 ? "men" : "women";
+            UserSettings.ChampionshipPath = championship == 0 ? "men" : "women";
             CultureInfo culture = new(language == 0 ? "en" : "hr");
             Thread.CurrentThread.CurrentCulture = culture;   // Globalizacija (vrijeme, datum, valuta)
             Thread.CurrentThread.CurrentUICulture = culture; // Lokalizacija (prijevodi)
@@ -50,10 +50,10 @@ namespace WinFormsApp
             comboBoxLoaded = false;
             var teams = await worldCupService.GetTeams();
             comboBox.Items.AddRange(teams.Select(t => $"{t.Country} ({t.FifaCode})").ToArray());
-            var fileName = $"favorite-{Settings.ChampionshipPath}-team.txt";
-            if (Settings.SettingsExist(fileName))
+            var fileName = $"favorite-{UserSettings.ChampionshipPath}-team.txt";
+            if (UserSettings.SettingsExist(fileName))
             {
-                comboBox.Text = Settings.LoadSettings(fileName)[0];
+                comboBox.Text = UserSettings.LoadSettings(fileName)[0];
                 LoadPlayers();
             }
             else button1.Enabled = false;
@@ -63,8 +63,8 @@ namespace WinFormsApp
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!comboBoxLoaded) return;
-            Settings.SaveSettings($"favorite-{Settings.ChampionshipPath}-team.txt", comboBox.Text);
-            Settings.SaveSettings($"favorite-{Settings.ChampionshipPath}-players.txt", "");
+            UserSettings.SaveSettings($"favorite-{UserSettings.ChampionshipPath}-team.txt", comboBox.Text);
+            UserSettings.SaveSettings($"favorite-{UserSettings.ChampionshipPath}-players.txt", "");
             favoritesPanel.Controls.Clear();
             button1.Enabled = true;
             LoadPlayers();
@@ -77,10 +77,10 @@ namespace WinFormsApp
             var playerControls = players.Select(p => new PlayerUserControl(p)).ToArray();
             playersPanel.Controls.Clear();
             playersPanel.Controls.AddRange(playerControls);
-            var fileName = $"favorite-{Settings.ChampionshipPath}-players.txt";
-            if (Settings.SettingsExist(fileName))
-                foreach (var playerName in Settings.LoadSettings(fileName))
-                    playerControls.FirstOrDefault(p => p.player.Name == playerName)?.setFavorite(true);
+            var fileName = $"favorite-{UserSettings.ChampionshipPath}-players.txt";
+            if (UserSettings.SettingsExist(fileName))
+                foreach (var playerName in UserSettings.LoadSettings(fileName))
+                    playerControls.FirstOrDefault(p => p.Player.Name == playerName)?.setFavorite(true);
         }
 
         private void panel_DragEnter(object sender, DragEventArgs e)
@@ -114,7 +114,7 @@ namespace WinFormsApp
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Settings.confirmDialogsEnabled && e.CloseReason == CloseReason.UserClosing)
+            if (AppSettings.ConfirmDialogsEnabled && e.CloseReason == CloseReason.UserClosing)
                 e.Cancel = MessageBox.Show(rm.GetString("exitConfirm"), rm.GetString("exitConfirmCaption"),
                     MessageBoxButtons.OKCancel) == DialogResult.Cancel;
         }

@@ -7,26 +7,26 @@ namespace WinFormsApp
 {
     public partial class PlayerUserControl : UserControl
     {
-        public readonly Player player;
+        public Player Player { get; }
 
         public PlayerUserControl(Player player)
         {
             InitializeComponent();
             Dock = DockStyle.Top;
-            this.player = player;
+            Player = player;
         }
 
         private void PlayerUserControl_Load(object sender, EventArgs e)
         {
-            nameLabel.Text = $"{player.Name} ({player.ShirtNumber})";
-            detailsLabel.Text = player.Position.ToString();
-            if (player.Captain)
+            nameLabel.Text = $"{Player.Name} ({Player.ShirtNumber})";
+            detailsLabel.Text = Player.Position.ToString();
+            if (Player.Captain)
             {
                 nameLabel.Font = new Font(Font, FontStyle.Bold);
                 detailsLabel.Text += " | " + (
                     CultureInfo.CurrentUICulture.Name == "en" ? "Captain" : "Kapetan");
             }
-            var path = Settings.GetPlayerImagePath(player.Name);
+            var path = UserSettings.GetPlayerImagePath(Player.Name);
             if (path != "")
                 playerPictureBox.Image = Image.FromFile(path);
         }
@@ -39,8 +39,8 @@ namespace WinFormsApp
             contextMenuStrip1.Items[1].Text = favorite ? "Remove from favorites" : "Move to favorites";
             BackColor = DefaultBackColor;
             var favorites = mainForm.Controls["favoritesPanel"].Controls
-                .Cast<PlayerUserControl>().Select(control => control.player.Name);
-            Settings.SaveSettings($"favorite-{Settings.ChampionshipPath}-players.txt", favorites.ToArray()!);
+                .Cast<PlayerUserControl>().Select(control => control.Player.Name);
+            UserSettings.SaveSettings($"favorite-{UserSettings.ChampionshipPath}-players.txt", favorites.ToArray()!);
         }
 
         private void starPictureBox_Click(object sender, EventArgs e)
@@ -74,15 +74,15 @@ namespace WinFormsApp
 
         private void playerPictureBox_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
+            OpenFileDialog fileDialog = new();
             fileDialog.Title = "Select a Image";
             fileDialog.Filter = "Images (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
-            if (!Directory.Exists(Settings.playerImagesPath))
-                Directory.CreateDirectory(Settings.playerImagesPath);
+            if (!Directory.Exists(UserSettings.PlayerImagesPath))
+                Directory.CreateDirectory(UserSettings.PlayerImagesPath);
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                string destination = Settings.playerImagesPath + player.Name + Path.GetExtension(filePath);
+                string destination = UserSettings.PlayerImagesPath + Player.Name + Path.GetExtension(filePath);
                 File.Copy(filePath, destination);
                 playerPictureBox.Image = new Bitmap(fileDialog.OpenFile());
             }

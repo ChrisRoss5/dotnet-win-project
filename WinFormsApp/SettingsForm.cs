@@ -17,8 +17,8 @@ namespace WinFormsApp
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            if (!Settings.SettingsExist()) return;
-            string[] settings = Settings.LoadSettings();
+            if (!UserSettings.SettingsExist()) return;
+            string[] settings = UserSettings.LoadSettings();
             languageComboBox.SelectedIndex = int.Parse(settings[0]);
             championshipComboBox.SelectedIndex = int.Parse(settings[1]);
         }
@@ -37,9 +37,9 @@ namespace WinFormsApp
                 MessageBox.Show(rm.GetString("confirmSettings"), rm.GetString("confirmSettingsCaption"),
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
                 return;
-            if (Settings.SettingsExist(length: 3))
-                indexes.Add(Settings.LoadSettings()[2]);
-            Settings.SaveSettings(settings: indexes.ToArray());
+            if (UserSettings.SettingsExist(length: 3))
+                indexes.Add(UserSettings.LoadSettings()[2]);
+            UserSettings.SaveSettings(settings: indexes.ToArray());
             DialogResult = DialogResult.OK;
             Close();
         }

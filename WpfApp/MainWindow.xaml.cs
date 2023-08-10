@@ -23,7 +23,7 @@ namespace WpfApp
         public MainWindow()
         {
             InitializeComponent();
-            if (!Settings.SettingsExist(length: 3) && new SettingsWindow(true).ShowDialog() == false)
+            if (!UserSettings.SettingsExist(length: 3) && new SettingsWindow(true).ShowDialog() == false)
                 Environment.Exit(0);
             ApplySettings(true);
         }
@@ -36,10 +36,10 @@ namespace WpfApp
 
         private void ApplySettings(bool isStartup = false)
         {
-            var settings = Settings.LoadSettings().Select(int.Parse).ToArray();
+            var settings = UserSettings.LoadSettings().Select(int.Parse).ToArray();
             (var language, var championship, var resolution) = (settings[0], settings[1], settings[2]);
-            var prevChampionshipPath = Settings.ChampionshipPath;
-            Settings.ChampionshipPath = championship == 0 ? "men" : "women";
+            var prevChampionshipPath = UserSettings.ChampionshipPath;
+            UserSettings.ChampionshipPath = championship == 0 ? "men" : "women";
             CultureInfo culture = new(language == 0 ? "en" : "hr");
             Thread.CurrentThread.CurrentCulture = culture;   // Globalizacija (vrijeme, datum, valuta)
             Thread.CurrentThread.CurrentUICulture = culture; // Lokalizacija (prijevodi)
@@ -51,7 +51,7 @@ namespace WpfApp
                 ? WindowState.Maximized : WindowState.Normal;
             if (resolution < SettingsWindow.resolutions.Count)
                 (Width, Height) = SettingsWindow.resolutions[resolution];
-            if (!isStartup && prevChampionshipPath != Settings.ChampionshipPath)
+            if (!isStartup && prevChampionshipPath != UserSettings.ChampionshipPath)
                 Window_Loaded(null, null);
         }
 
@@ -60,9 +60,9 @@ namespace WpfApp
             var teams = await worldCupService.GetTeams();
             firstTeamComboBox.ItemsSource = teams.Select(t => $"{t.Country} ({t.FifaCode})");
             secondTeamComboBox.ItemsSource = null;
-            var fileName = $"favorite-{Settings.ChampionshipPath}-team.txt";
-            if (Settings.SettingsExist(fileName))
-                firstTeamComboBox.Text = Settings.LoadSettings(fileName)[0];
+            var fileName = $"favorite-{UserSettings.ChampionshipPath}-team.txt";
+            if (UserSettings.SettingsExist(fileName))
+                firstTeamComboBox.Text = UserSettings.LoadSettings(fileName)[0];
             else
             {
                 firstTeamComboBox.SelectedIndex = -1;

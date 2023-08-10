@@ -23,7 +23,7 @@ namespace WpfApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var path = Settings.GetPlayerImagePath(player.Name);
+            var path = UserSettings.GetPlayerImagePath(player.Name);
             if (path != "")
                 image.Source = new BitmapImage(new Uri(path));
             nameLabel.Content = $"{player.Name} ({player.ShirtNumber})";

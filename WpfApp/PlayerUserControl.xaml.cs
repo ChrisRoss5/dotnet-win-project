@@ -9,7 +9,7 @@ namespace WpfApp
 {
     public partial class PlayerUserControl : UserControl
     {
-        public readonly Player player;
+        private readonly Player player;
 
         public PlayerUserControl(Player player)
         {
@@ -19,7 +19,7 @@ namespace WpfApp
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var path = Settings.GetPlayerImagePath(player.Name);
+            var path = UserSettings.GetPlayerImagePath(player.Name);
             if (path != "")
                 image.Source = new BitmapImage(new Uri(path));
             textBlock.Text = $"{player.Name} ({player.ShirtNumber})";

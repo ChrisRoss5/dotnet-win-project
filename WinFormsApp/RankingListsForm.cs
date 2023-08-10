@@ -35,7 +35,7 @@ namespace WinFormsApp
             int rank = 1, lastGoals = list[0].Value;
             foreach (var (player, goals) in list)
             {
-                var path = Settings.GetPlayerImagePath(player.Name);
+                var path = UserSettings.GetPlayerImagePath(player.Name);
                 var image = path != "" ? Image.FromFile(path) : Resources.player_icon2;
                 var listItem = CreateListItem(
                     goals < lastGoals ? ++rank : rank,

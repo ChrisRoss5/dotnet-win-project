@@ -28,7 +28,7 @@ namespace ClassLibrary.Repo
 
         private Task<T> Request<T>(string path)
         {
-            var request = new RestRequest($"{Settings.ChampionshipPath}/{path}");
+            var request = new RestRequest($"{UserSettings.ChampionshipPath}/{path}");
             return restClient.GetAsync<T>(request)!;
         }
     }

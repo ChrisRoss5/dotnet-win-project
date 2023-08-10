@@ -28,8 +28,8 @@ namespace WpfApp
             resolutionComboBox.ItemsSource = resolutions.Select(r => $"{r.w}x{r.h}")
                 .Concat(new[] { FindResource("fullscreen") as string });
             comboBoxes = new List<ComboBox> { languageComboBox, championshipComboBox, resolutionComboBox };
-            if (!Settings.SettingsExist()) return;
-            var settings = Settings.LoadSettings();
+            if (!UserSettings.SettingsExist()) return;
+            var settings = UserSettings.LoadSettings();
             for (int i = 0; i < settings.Length; i++)
                 comboBoxes[i].SelectedIndex = int.Parse(settings[i]);
         }
@@ -48,7 +48,7 @@ namespace WpfApp
                 FindResource("confirmSettingsTitle") as string,
                 MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
                 return;
-            Settings.SaveSettings(settings: indexes.ToArray());
+            UserSettings.SaveSettings(settings: indexes.ToArray());
             DialogResult = true;
             Close();
         }

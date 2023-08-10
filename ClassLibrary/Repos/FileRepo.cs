@@ -25,25 +25,21 @@ namespace ClassLibrary.Repo
 
         private static async Task<T> ParseFile<T>(string fileName)
         {
-            string text;
-            if (Environment.GetEnvironmentVariable("APP_ENV") == "Production")
-                text = ReadResourceFile(fileName);
-            else 
-                text = await File.ReadAllTextAsync(
-                    $"{Settings.solutionFolderPath}/worldcup.sfg.io/" +
-                    $"{Settings.ChampionshipPath}/{fileName}.json");
+            var text = await (AppSettings.IsProduction 
+                ? ReadResourceFile(fileName) 
+                : File.ReadAllTextAsync(
+                    $"{AppSettings.SolutionPath}/worldcup.sfg.io/" +
+                    $"{UserSettings.ChampionshipPath}/{fileName}.json"));
             return JsonConvert.DeserializeObject<T>(text, Converter.Settings)!;
         }
 
-        public static string ReadResourceFile(string fileName)
+        private static Task<string> ReadResourceFile(string fileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceNames = assembly.GetManifestResourceNames();
-            var resourceName = $"ClassLibrary.{Settings.ChampionshipPath}.{fileName}.json";
+            var resourceName = $"ClassLibrary.{UserSettings.ChampionshipPath}.{fileName}.json";
             using Stream stream = assembly.GetManifestResourceStream(resourceName)!;
             using StreamReader reader = new(stream);
-            string result = reader.ReadToEnd();
-            return result;
+            return reader.ReadToEndAsync();
         }
     }
 }
