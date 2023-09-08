@@ -6,11 +6,12 @@ namespace WpfApp
 {
     public partial class TeamWindow : Window
     {
-        private readonly IWorldCupService worldCupService = new WorldCupService(new RestApiRepo());
+        private readonly IWorldCupService worldCupService;
         private readonly string countryCode;
 
-        public TeamWindow(string team)
+        public TeamWindow(IWorldCupService worldCupService, string team)
         {
+            this.worldCupService = worldCupService;
             InitializeComponent();
             Title = $"{FindResource("results") as string} - {team}";
             countryCode = team.Split('(', ')')[1];

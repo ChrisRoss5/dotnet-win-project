@@ -11,12 +11,13 @@ namespace WinFormsApp
 {
     public partial class RankingListsForm : Form
     {
-        private readonly IWorldCupService worldCupService = new WorldCupService(new RestApiRepo());
+        private readonly IWorldCupService worldCupService;
         private readonly ResourceManager rm = new(typeof(Resources));
         private readonly string countryCode;
 
-        public RankingListsForm(string team)
+        public RankingListsForm(IWorldCupService worldCupService, string team)
         {
+            this.worldCupService = worldCupService;
             InitializeComponent();
             Text = $"{rm.GetString("rankingListTitle")} - {team}";
             countryCode = team.Split('(', ')')[1];

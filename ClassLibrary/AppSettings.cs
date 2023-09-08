@@ -4,10 +4,10 @@ namespace ClassLibrary
 {
     public static class AppSettings
     {
-        public static bool IsProduction { get; } = true;
+        public static bool IsProduction { get; } = false;
         public static bool ConfirmDialogsEnabled { get; } = false;
-        public static IRepo DefaultRepo { get; } = new FileRepo();
-        public static bool ForceDefaultRepo { get; } = true;
+        public static string DefaultRepo { get; } = "FileRepo";
+        public static bool ForceDefaultRepo { get; } = false;
         public static string SolutionPath { get; } = !IsProduction
             ? Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName
             : Environment.CurrentDirectory;

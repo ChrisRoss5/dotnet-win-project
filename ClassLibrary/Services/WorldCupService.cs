@@ -5,12 +5,17 @@ namespace ClassLibrary.Services
 {
     public class WorldCupService : IWorldCupService
     {
-        private readonly IRepo repo = AppSettings.DefaultRepo;
+        private readonly IRepo repo;
 
         public WorldCupService(IRepo? repo = null)
         {
-            if (repo != null && !AppSettings.ForceDefaultRepo)
-                this.repo = repo;
+            this.repo = repo == null || AppSettings.ForceDefaultRepo
+                ? AppSettings.DefaultRepo switch
+                {
+                    "RestApiRepo" => new RestApiRepo(),
+                    "FileRepo" => new FileRepo(),
+                    _ => throw new Exception($"Unknown default repo: {AppSettings.DefaultRepo}"),
+                } : repo;
         }
 
         public Task<List<Team>> GetTeams() => repo.GetTeams();

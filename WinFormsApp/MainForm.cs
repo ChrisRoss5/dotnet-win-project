@@ -109,7 +109,7 @@ namespace WinFormsApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new RankingListsForm(comboBox.Text).Show();
+            new RankingListsForm(worldCupService, comboBox.Text).Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

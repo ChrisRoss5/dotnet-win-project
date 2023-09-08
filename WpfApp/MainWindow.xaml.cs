@@ -148,12 +148,12 @@ namespace WpfApp
 
         private void firstTeamButton_Click(object sender, RoutedEventArgs e)
         {
-            new TeamWindow(firstTeamComboBox.SelectedItem.ToString()!).Show();
+            new TeamWindow(worldCupService, firstTeamComboBox.SelectedItem.ToString()!).Show();
         }
 
         private void secondTeamButton_Click(object sender, RoutedEventArgs e)
         {
-            new TeamWindow(secondTeamComboBox.SelectedItem.ToString()!).Show();
+            new TeamWindow(worldCupService, secondTeamComboBox.SelectedItem.ToString()!).Show();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
