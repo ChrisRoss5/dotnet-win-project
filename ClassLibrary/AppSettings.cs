@@ -5,7 +5,7 @@ namespace ClassLibrary
     public static class AppSettings
     {
         public static bool IsProduction { get; } = false;
-        public static bool ConfirmDialogsEnabled { get; } = false;
+        public static bool ConfirmDialogsEnabled { get; } = true;
         public static string DefaultRepo { get; } = "FileRepo";
         public static bool ForceDefaultRepo { get; } = false;
         public static string SolutionPath { get; } = !IsProduction
