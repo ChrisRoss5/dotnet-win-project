@@ -4,7 +4,7 @@
     {
         private const char delimiter = ',';
         private const string defaultSettings = "settings.txt";
-        public static string PlayerImagesPath { get; } = "/PlayerImages/";
+        public static string PlayerImagesPath { get; } = AppSettings.SolutionPath + "/PlayerImages/";
         public static string ChampionshipPath { get; set; } = null!;
 
         public static bool SettingsExist(string fileName = defaultSettings, int length = 0)
@@ -26,9 +26,8 @@
 
         public static string GetPlayerImagePath(string playerName)
         {
-            var path = AppSettings.SolutionPath + PlayerImagesPath;
-            if (!Directory.Exists(path)) return "";
-            var files = Directory.GetFiles(path, playerName + ".*");
+            if (!Directory.Exists(PlayerImagesPath)) return "";
+            var files = Directory.GetFiles(PlayerImagesPath, playerName + ".*");
             return files.Length > 0 ? files[0] : "";
         }
     }
