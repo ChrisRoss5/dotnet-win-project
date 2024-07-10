@@ -1,6 +1,6 @@
 ![App preview](preview-images/1.png)
 
-**See [releases](/releases/latest) to download self-contained or framework-dependent executables.**
+**See [releases](https://github.com/ChrisRoss5/dotnet-win-project/releases/latest) to download self-contained or framework-dependent executables.**
 
 For more info, see project specifications:
 
